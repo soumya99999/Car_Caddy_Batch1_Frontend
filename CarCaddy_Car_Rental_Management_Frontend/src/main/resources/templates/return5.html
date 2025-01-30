@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Car Return</title>
+    <style>
+        .message {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Car Return</h1>
+
+    <div th:if="${message}" class="message" th:text="${message}"></div>
+    <div th:if="${error}" class="error" th:text="${error}"></div>
+
+    <form th:action="@{/rentals/return}" method="post">
+        <label for="bookingId">Booking ID:</label>
+        <input type="text" id="bookingId" name="bookingId" required><br><br>
+        <button type="submit">Acknowledge Return</button>
+    </form>
+
+</body>
+</html>

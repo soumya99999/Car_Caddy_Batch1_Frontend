@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Maintenance Record</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+    <style>
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+        .success {
+            color: green;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Create Maintenance Record</h1>
+</header>
+<form method="post" th:action="@{/register}" th:object="${maintainance}">
+    <label for="carId">Car ID:</label>
+    <input id="carId" th:field="*{carId}" type="number">
+    <!-- Error message for Car ID -->
+    <div class="error" th:if="${carIdError}" th:text="${carIdError}"></div>
+    <br>
+
+    <label for="description">Description:</label>
+    <textarea id="description" required th:field="*{description}"></textarea>
+    <!-- Error message for Description -->
+    <div class="error" th:if="${DescriptionError}" th:text="${DescriptionError}"></div>
+    <br>
+
+    <label for="maintenanceType">Maintenance Type:</label>
+    <input id="maintenanceType" required th:field="*{maintenanceType}" type="text">
+    <!-- Error message for Maintenance Type -->
+    <div class="error" th:if="${typeError}" th:text="${typeError}"></div>
+    <br>
+
+    <label for="maintenanceCost">Maintenance Cost:</label>
+    <input id="maintenanceCost" name="maintenanceCost" required type="number">
+    <!-- No error message logic provided in your code for this -->
+    <br>
+
+    <label for="maintenanceStatus">Maintenance Status:</label>
+    <input id="maintenanceStatus" required th:field="*{maintenanceStatus}" type="text">
+    <!-- Error message for Maintenance Status -->
+    <div class="error" th:if="${statusError}" th:text="${statusError}"></div>
+    <br>
+
+    <input type="submit" value="Register"/>
+</form>
+
+</body>
+</html>

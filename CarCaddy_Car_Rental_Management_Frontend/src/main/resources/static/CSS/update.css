@@ -1,0 +1,281 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%; /* Ensures body and html take full height */
+    margin: 0; /* Removes default margins */
+}
+
+body {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    background: url('../images/back-update-car.jpg') no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+    overflow: hidden; /* Prevents unnecessary scrollbars */
+}
+
+body::before {
+	content: '';
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    width: 100%;
+	    height: 100%;
+	    background-color: rgba(0, 0, 0, 0.6);
+	    z-index: -1;
+}
+
+.container {
+    display: grid;
+    grid-column: span 5;
+    grid-column-start: 7;
+	grid-column-end: 12;;
+    align-self: center;
+    padding: 20px;
+}
+
+.form-container {
+	background: rgba(255, 255, 255, 0.1); /* More transparency */
+	    border-radius: 15px; /* Rounded corners */
+	    padding: 30px; /* Internal spacing */
+	    color: white;
+	    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); /* Soft shadow */
+	    backdrop-filter: blur(5px) saturate(180%); /* Blur effect with slight saturation */
+	    -webkit-backdrop-filter: blur(5px) saturate(180%); /* For WebKit browsers */
+	    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+	    
+	    
+}
+
+.form-content {
+    max-height: calc(100vh - 120px); /* Ensures no overflow issues */
+    overflow-y: auto; /* Enables scrolling within the form */
+    padding: 30px;
+}
+
+.form-content::-webkit-scrollbar {
+    display: none; /* Hides the scrollbar for WebKit browsers */
+}
+
+.Heading {
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.Heading h1 {
+    font-size: 24px;
+	text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    color: hotpink;
+    margin: 0;
+}
+
+label {
+    font-size: 16px;
+	color: #ffc8dd;
+
+}
+
+input, select {
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    outline: none;
+    font-size: 14px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    width: 100%;
+}
+
+input:focus, select:focus {
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.update {
+    padding: 12px 20px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(45deg, #ff7eb3, #ff758c, #ff6491); /* Gradient color */
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.4s ease; /* Smooth animation */
+    text-align: center;
+    width: 100%;
+    position: relative; /* For glowing effect */
+    overflow: hidden;
+    z-index: 0;
+}
+
+.update::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 10%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s, transform 0.4s;
+    transform: scale(0.5);
+    z-index: -1;
+}
+
+.update:hover::before {
+    opacity: 1;
+    transform: scale(1.5); /* Glow effect expands */
+}
+
+.update:hover {
+    background: linear-gradient(45deg, #ff4e78, #ff3761, #ff244d); /* Darker gradient on hover */
+    box-shadow: 0px 8px 15px rgba(255, 70, 100, 0.7); /* Glowing shadow */
+    transform: translateY(-2px); /* Slight upward movement */
+}
+
+.update:active {
+    background: linear-gradient(45deg, #e6365c, #d4254e, #c51b3f); /* Pressed gradient */
+    box-shadow: 0px 4px 10px rgba(255, 70, 100, 0.5); /* Smaller shadow */
+    transform: translateY(0); /* Return to original position */
+}
+
+select {
+	 padding: 12px;
+	    border: 1px solid rgba(255, 255, 255, 0.3); /* Border matches input fields */
+	    border-radius: 8px;
+	    background: rgba(255, 255, 255, 0.1); /* Same semi-transparent background as inputs */
+	    color: white; /* White text */
+	    font-size: 14px;
+	    outline: none;
+	    transition: all 0.3s ease; /* Smooth transition for hover/focus */
+	    width: 100%; /* Full width inside the grid */
+	    appearance: none; /* Removes default arrow styling */
+	}
+
+	select:hover,
+	select:focus {
+	    border-color: rgba(255, 255, 255, 0.6); /* Highlight border on hover/focus */
+	    background: rgba(255, 255, 255, 0.2); /* Slightly brighter background on hover/focus */
+	    color: white;
+	}
+
+	select option {
+	    background: rgba(0, 0, 0, 0.8); /* Dark background for dropdown options */
+	    color: white; /* White text for options */
+	}
+	/* Placeholder Styling */
+	input::placeholder, select::placeholder {
+	    color: rgba(255, 255, 255, 0.6);
+	    font-style: italic;
+	}
+
+	.prev-page {
+	    display: flex;
+	    justify-content: space-around;
+	    margin-top: 25px;
+	}
+
+	.prev-page li {
+	    display: flex; /* Use flexbox for list items */
+	    flex-direction: column; /* Stack icon and text vertically */
+	    align-items: center; /* Center items horizontally */
+	    transition: transform 0.3s ease, color 0.4s ease; /* Smooth transition for scaling and color */
+	}
+
+	.prev-page a {
+	    color: rgba(255, 126, 179, 0.8); /* Match link color with the "update" button gradient */
+	    text-decoration: none; /* Remove underline */
+	    text-align: center; /* Center text */
+	}
+
+	.prev-page a i {
+	    margin-bottom: 5px; /* Space between icon and text */
+	    font-size: 24px; /* Adjust icon size */
+	}
+
+	.prev-page a span {
+	    font-size: 14px; /* Adjust text size */
+	    display: block; /* Ensure the text is treated as a block element */
+	}
+
+	/* Hover Effects */
+	.prev-page li:hover {
+	    transform: scale(1.1); /* Scale up the entire list item */
+	}
+
+	.prev-page li:hover a {
+	    color: rgba(255, 78, 120, 1); /* Darker gradient on hover */
+	}
+
+	.prev-page li:hover a i {
+	    color: rgba(255, 36, 77, 1); /* Change icon color on hover */
+	    transform: scale(1.2); /* Scale up the icon */
+	}
+	
+	@media screen and (max-width: 1200px) {
+	    .form-container {
+	        width: 90%;
+	        padding: 25px;
+	    }
+
+	    .Heading h1 {
+	        font-size: 22px;
+	    }
+	}
+
+	@media screen and (max-width: 768px) {
+	    body {
+	        grid-template-columns: 1fr;
+	        padding: 0;
+	    }
+
+	    .container {
+	        width: 100%;
+	        padding: 10px;
+	    }
+
+	    .form-container {
+	        padding: 15px;
+	        width: 100%;
+	    }
+
+	    .Heading h1 {
+	        font-size: 20px;
+	    }
+
+	    input, select {
+	        font-size: 14px;
+	        padding: 10px;
+	    }
+
+	    .update {
+	        font-size: 14px;
+	        padding: 10px;
+	    }
+	}
+
+	@media screen and (max-width: 480px) {
+	    .Heading h1 {
+	        font-size: 18px;
+	    }
+
+	    input, select {
+	        font-size: 12px;
+	        padding: 8px;
+	    }
+
+	    .update {
+	        font-size: 12px;
+	        padding: 8px;
+	    }
+	}

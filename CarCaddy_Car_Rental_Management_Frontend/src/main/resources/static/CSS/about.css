@@ -1,0 +1,58 @@
+home page body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.about-section {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 50px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.about-section h1 {
+    font-size: 3rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.about-section p {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.about-section h3 {
+    color: #333;
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.about-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.about-section ul li {
+    font-size: 1.1rem;
+    color: #555;
+    padding: 5px 0;
+}
+
+.social-links {
+    margin-top: 20px;
+}
+
+.social-links a {
+    font-size: 1.5rem;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: #007bff;
+}
+.navbar-logo {
+    height: 40px; /* Adjust the height as needed */
+    object-fit: contain; /* Ensures the logo maintains aspect ratio */
+}  

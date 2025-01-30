@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <link rel="stylesheet" th:href="@{/style.css}">
+    <title>carcaddy</title>
+</head>
+<body>
+<div class="navbar">
+    <div class="nav-container">
+
+        <ul class="nav-links">
+            <li><a th:href=@{/}>Home</a></li>
+            <li><a th:href="@{/maintenance}">Create Maintenance</a></li>
+            <li><a th:href="@{/maintenance/list}">List of Maintenance Records</a></li>
+        </ul>
+    </div>
+</div>
+<div class="fullscreen-image">
+    <img src="https://themewagon.github.io/carserv/img/carousel-bg-1.jpg" alt="Full Screen Background">
+</div>
+
+</body>
+</html>

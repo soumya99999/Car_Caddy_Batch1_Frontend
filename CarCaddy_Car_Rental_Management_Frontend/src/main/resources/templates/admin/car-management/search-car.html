@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Car</title>
+    <link rel="stylesheet" th:href="@{/css/verify.css}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="verify-container">
+        <!-- Left Section -->
+        <div class="left-section">
+            <div class="image-container">
+                <img th:src="@{/images/3-car.jpg}" alt="Car Image">
+            </div>
+        </div>
+
+        <!-- Right Section -->
+        <div class="right-section">
+            <header>Search Your Car</header>
+            <form class="verify-form" th:object="${car}" th:action="@{/getCar}" method="get">
+                <label for="registrationNumber">Registration Number</label>
+                <input type="text" id="registrationNumber" th:field="*{registrationNumber}" placeholder="Enter registration number">
+                <div th:if="${errorMessage != null}" style="color:red;">
+                    <p th:text="${errorMessage}"></p> <!-- Display backend error message -->
+                </div>
+                <button type="submit">Confirm</button>
+				<ul class="prev-page">
+				    <li>
+				        <a th:href="@{/car-management/home}">
+				            <div class="icon-text">
+				                <i class="fas fa-home"></i>
+				            </div>
+				        </a>
+				    </li>
+					<li>
+					    <a th:href="@{/car-register}">
+					         <div class="icon-text">
+					             <i class="fas fa-user-plus"></i>
+					          </div>
+					    </a>
+					</li>
+					<li>
+				        <a th:href="@{/update-car}">
+				            <div class="icon-text">
+				                <i class="fas fa-edit"></i>
+				               
+				            </div>
+				        </a>
+				    </li>
+				</ul>
+            </form>
+        </div>
+    </div>
+
+    <script src="/JS/verify.js"></script>
+</body>
+</html>

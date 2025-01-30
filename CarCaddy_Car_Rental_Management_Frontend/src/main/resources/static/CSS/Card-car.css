@@ -1,0 +1,252 @@
+@charset "UTF-8";
+
+ body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+           overflow-x: hidden;
+        }
+
+
+
+        .buttons .btn-primary,
+        .buttons .btn-secondary {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .buttons .btn-primary {
+            background: #6200ea;
+            color: #fff;
+            margin-right: 10px;
+        }
+
+        .buttons .btn-secondary {
+            background: #fff;
+            color: #6200ea;
+            border: 2px solid #6200ea;
+        }
+
+        .hero-image img {
+            width: 500px;
+            border-radius: 10px;
+        }
+
+        .car1 {
+            box-shadow: 0px 0px 5px 0px rgb(117, 116, 116);
+            border-radius: 10px;
+            max-height: 490px;
+            padding: 15px;
+            margin: 30px 15px;
+        }
+
+        /* Car Section */
+        .car-section {
+            padding: 20px;
+        }
+
+        .car-section h2 {
+            font-size: 1.5em;
+            color: #222;
+        }
+
+        .car-container {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-top: 20px;
+             padding: 0px 20px 
+        }
+
+        .car-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            /* padding: 20px; */
+            width: 300px;
+            text-align: center;
+            margin-bottom: 20px;
+            min-height: 409px;
+        }
+
+        .car-card img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .car-card h3 {
+            margin: 15px 0 10px;
+            font-size: 1.2em;
+        }
+
+        .car-card .price {
+            font-size: 1.2em;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        .car-card .btn-book {
+            background: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .car-placeholder {
+            width: 300px;
+            height: 250px;
+            background: #f0f0f0;
+            border-radius: 10px;
+        }
+
+        .carousel-control {
+            font-size: 2em;
+            cursor: pointer;
+            color: #444;
+        }
+
+        /* footer */
+
+        .d {
+            padding: 70px 0px 55px 0px;
+        }
+
+        .dbox {
+            margin: 0px 180px 0px 180px;
+            padding: 24px 0px 24px 0px;
+            display: flex;
+            height: 330px;
+            column-gap: 20px;
+
+        }
+
+        .dboxp {
+            width: 218px;
+        }
+
+        .dboxu {}
+
+        .dbox1 {
+            width: 218px;
+            height: 30px;
+        }
+
+        .dbox1 ul {
+            list-style-type: none;
+        }
+
+        .dbox1 ul li {
+            width: 218px;
+        }
+
+        .dbox1 ul li a {
+            text-decoration: none;
+            color: rgba(0, 0, 0, .6);
+        }
+
+        .df {
+            width: 218px;
+
+        }
+
+        .din {
+            width: 184px;
+            height: 18px;
+            border: 1px solid #22242626;
+            transition: box-shadow .15s ease-in-out;
+            padding: 10px 16px;
+            border-radius: 5px;
+        }
+
+        .dbtn {
+            width: 218px;
+            background-color: #00b6d1;
+            border-color: #00b6d1;
+            border-radius: 5px;
+            padding: 10px 45px;
+            margin: 10px 0px 10px 0px;
+        }
+
+        .df1 {
+
+            width: 1150x;
+            height: 50px;
+            margin: 0px 180px;
+            display: flex;
+        }
+
+        .de1 {
+            width: 465px;
+            height: 50px;
+        }
+
+        /* .de2{
+    width: 465px;
+    height: 28px;
+    text-align: right;
+} */
+
+        .de2 {
+            width: auto;
+            height: auto;
+            ;
+            text-align: right;
+            margin-left: 180px;
+            font-size: 22px;
+            margin-top: 10px;
+
+        }
+
+        .de1 img {
+            width: 157px;
+            height: 50px;
+        }
+
+        .de2 i {
+            padding: 2px;
+            width: 24px;
+            height: 24px;
+        }
+
+        .icon {
+            height: 10px;
+            width: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+
+        }
+
+        .cmenu {
+            margin: 20px;
+        }
+
+        /* a:hover{
+    font-size: 26px;
+} */
+        .end {
+
+            margin: 0px 180px;
+            font-size: 12px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .car-container {
+                flex-direction: column;
+            }
+
+        }

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Car Management</title>
+	<link rel="stylesheet" th:href="@{/css/filter.css}">
+</head>
+<body>
+     <nav class="navbar">
+        <div class="logo">
+            <img th:src="@{/images/logo.png}" alt="Car Management Logo">
+        </div>
+        <ul class="nav-links">
+            <li><a th:href="@{/car-management/home}">Home</a></li>
+            <li><a th:href="@{/car-register}">Register</a></li>
+            <li><a th:href="@{/update-car}">Update</a></li>
+            <li><a th:href="@{/filter}" class="filter-link">Find</a></li>
+        </ul>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+	<div class="container">
+	    <!-- Left Panel -->
+	    <div class="left-panel">
+	        <form class="search-form">
+	            <label for="company">Company</label>
+	            <input type="text" id="company" name="company" onchange="handleInputChange()" placeholder="Enter company name">
+
+	            <label for="mileage">Mileage (>=)</label>
+	            <input type="number" id="mileage" name="mileage" onchange="handleInputChange()" placeholder="Enter mileage">
+
+	            <label for="rentalRate">Rental Rate (<=)</label>
+	            <input type="number" id="rentalRate" name="rentalRate" onchange="handleInputChange()" placeholder="Enter rental rate">
+
+	            <label for="color">Color</label>
+	            <input type="text" id="color" name="color" onchange="handleInputChange()" placeholder="Enter color">
+
+	            <label for="location">Location</label>
+	            <input type="text" id="location" name="location" onchange="handleInputChange()" placeholder="Enter location">
+
+	            <label for="seatingCapacity">Seating Capacity (>=)</label>
+	            <input type="number" id="seatingCapacity" name="seatingCapacity" onchange="handleInputChange()" placeholder="Enter seating capacity">
+	        </form>
+	    </div>
+
+	    <!-- Right Panel -->
+		<div class="right-panel">
+		    <div id="results">
+		        <p class="centered-text">Search Your Journey</p>
+		    </div>
+		</div>
+	</div>
+    <script src="/JS/navbar.js"></script>
+	<script src="/JS/car-filter.js"></script>
+</body>
+</html>

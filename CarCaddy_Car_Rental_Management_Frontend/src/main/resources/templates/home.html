@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>CarCaddy - Home</title>
+    <style>
+        /* General Styling */
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff;
+            background-color: #f5f5f5;
+            cursor: default;
+        }
+
+        /* Header */
+        header {
+            background-color: #0d47a1;
+            /* Rich navy blue for elegance */
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        nav ul li a:hover {
+            color: #ffcc00;
+            /* Accent color for hover */
+        }
+
+        /* Embedded Buttons */
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .auth-buttons a {
+            text-decoration: none;
+            color: white;
+            padding: 8px 15px;
+            border: 1px solid white;
+            border-radius: 20px;
+            font-size: 14px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .auth-buttons a:hover {
+            background-color: white;
+            color: #0d47a1;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('https://static.vecteezy.com/system/resources/previews/008/652/562/original/car-rental-social-media-thumbnail-template-flat-cartoon-background-illustration-vector.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 85vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #bcdc00;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 22px;
+            margin-bottom: 30px;
+        }
+
+        .hero .buttons {
+            display: none;
+            /* Hide the buttons in the middle */
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0d47a1;
+            color: white;
+            text-align: center;
+            padding: 20px 10px;
+            margin-top: 30px;
+            box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        footer a {
+            color: #ffcc00;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Cursor Enhancements */
+        a {
+            cursor: pointer;
+        }
+
+        button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <h1>CarCaddy</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/about}">About</a></li>
+                <li><a th:href="@{/services}">Services</a></li>
+                <li><a th:href="@{/contact}">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <a th:href="@{/register}">Register</a>
+            <a th:href="@{/login}">Login</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div>
+            <h1>Welcome to CarCaddy</h1>
+            <p>Your ultimate solution for hassle-free car rentals!</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 CarCaddy - All Rights Reserved</p>
+        <p><a th:href="@{/privacy-policy}">Privacy Policy</a> | <a th:href="@{/terms}">Terms of Service</a></p>
+    </footer>
+
+    <!-- JavaScript for Interactivity -->
+    <script>
+        document.querySelector('header h1').addEventListener('click', () => {
+            window.location.href = '/';
+        });
+    </script>
+</body>
+
+</html>

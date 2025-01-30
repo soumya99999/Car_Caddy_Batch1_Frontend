@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: url('https://example.com/employee-background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: black;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007bff;
+            color: black;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            padding: 8px 12px;
+            margin: 0 5px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .btn-edit {
+            background-color: green;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background-color: green;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+
+        p {
+            color: red;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Employee List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="employee : ${employees}">
+                <td th:text="${employee.employeeId}"></td>
+                <td th:text="${employee.fullName}"></td>
+                <td th:text="${employee.emailId}"></td>
+                <td th:text="${employee.contactNumber}"></td>
+                <td th:text="${employee.accountType}"></td>
+                <td>
+                    <a th:href="@{/employees/edit/{employeeId}(employeeId=${employee.employeeId})}" class="btn-edit">Edit</a>
+                    <a th:href="@{/employees/delete/{employeeId}(employeeId=${employee.employeeId})}" 
+                       th:onclick="return confirm('Are you sure you want to delete this employee?');" class="btn-delete">
+                       Delete
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Display error message if any -->
+    <div th:if="${error}">
+        <p th:text="${error}" style="color:red;"></p>
+    </div>
+
+    <!-- Display success message if any -->
+    <div th:if="${success}">
+        <p th:text="${success}" style="color:green;"></p>
+    </div>
+</body>
+</html>

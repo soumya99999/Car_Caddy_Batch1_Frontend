@@ -1,0 +1,153 @@
+/* General Grid Setup for Hero Section */
+.Hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: linear-gradient(135deg, #f0f8ff, #e6e6fa);
+    min-height: 80vh;
+}
+
+
+
+/* Left Hero Section */
+.left-hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+
+.left-hero h1 {
+    font-size: 3rem;
+    color: #4b0082;
+}
+
+.left-hero p {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.btn, .btn-secondary {
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn {
+    background-color: #6a5acd;
+    color: #fff;
+    border: none;
+}
+
+.btn-secondary {
+    background-color: #e0e0f8;
+    color: #4b0082;
+    border: 2px solid #6a5acd;
+}
+
+.btn:hover, .btn-secondary:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+
+/* Right Hero Section */
+.right-hero {
+    position: relative;
+    background: linear-gradient(135deg, #6a5acd, #483d8b);
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+    border-radius: 10px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.background-color {
+    position: absolute;
+    width: 80%;
+    height: 140%;
+    z-index: 1;
+}
+
+.car-hero {
+    position: relative;
+    z-index: 2;
+    width: 150%;
+    transform: translateY(-60px) translateX(-100px);
+}
+
+.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+	background: rgba(255, 255, 255, 0.15); /* Translucent white */
+	  backdrop-filter: blur(10px); /* Blur effect for glassmorphism */
+	  -webkit-backdrop-filter: blur(10px); /* Safari compatibility */
+	  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+    z-index: 9999; /* Make sure it appears above other elements */
+}
+
+/* From Uiverse.io by aadium */ 
+.loader {
+  overflow: hidden;
+  position: relative;
+}
+
+.wheel {
+  fill: rgb(128, 128, 128);
+  font-size: 100px;
+  width: 100px;
+  height: 100px;
+  border-radius: 6em;
+  text-align: center;
+  animation: rolling 1s linear infinite;
+}
+
+#rim {
+  fill: rgb(126, 126, 126);
+}
+
+#tire {
+  fill: rgb(55, 55, 55);
+}
+
+.road {
+  position: absolute;
+  margin-top: -4px;
+  width: 100%;
+  height: 10px;
+  border-radius: 5em;
+  background-color: rgb(55, 55, 55);
+  animation: road-move 2s linear infinite;
+}
+
+@keyframes rolling {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes road-move {
+  from {
+    transform: translateX(-140%);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}

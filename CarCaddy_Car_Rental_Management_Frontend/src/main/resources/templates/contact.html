@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Car Rental</title>
+  <style>
+    /* General body styling */
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: url('https://media.istockphoto.com/id/1323994547/photo/chic-young-asian-man-using-mobile-app-device-on-smartphone-to-order-a-taxi-pick-up-service-by.jpg?s=612x612&w=0&k=20&c=pjxnHZpX0cLZViayHDBf3Ae5UPTgY2Y6H7R-25tMi9o=') no-repeat center center/cover;
+      color: #fff;
+    }
+
+    /* Centered container styling */
+    .contact-container {
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(5px);
+      padding: 40px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+      max-width: 400px;
+      width: 90%;
+    }
+
+    /* Heading styling */
+    .contact-container h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color:#088F8F ;
+    }
+
+    /* Contact information styling */
+    .contact-container p {
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+      line-height: 1.5;
+    }
+
+    /* Email and phone link styling */
+    .contact-container a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .contact-container a:hover {
+      text-decoration: underline;
+    }
+
+    /* Button styling */
+    .contact-container button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #088F8F;
+      color: #000;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .contact-container button:hover {
+      background: green;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="contact-container">
+    <h1>Contact Us</h1>
+    <p>Email: <a href="mailto:support@carcaddy.com">support@carcaddy.com</a></p>
+    <p>Phone: +1 (555) 555-5555</p>
+    <button onclick="location.href='mailto:support@carcaddy.com'">Email Us</button>
+  </div>
+</body>
+</html>

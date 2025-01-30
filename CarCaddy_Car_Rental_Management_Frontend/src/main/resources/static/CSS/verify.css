@@ -1,0 +1,283 @@
+/* Base Styles */
+body {
+    background-color: #f3f4f6; /* Light gray background for a clean look */
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+* {
+    box-sizing: border-box; /* Include padding and border in element dimensions */
+}
+
+.verify-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal sections */
+    min-height: 100vh;
+    gap: 0; /* No gap between the sections */
+    padding: 60px; /* Use padding instead of margin */
+    max-width: 100%; /* Prevent overflow */
+    margin: 0 auto; /* Center the container */
+    overflow: hidden; /* Prevent content overflow */
+}
+
+/* Left Section Styles */
+.left-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #4b5563; /* Neutral gray */
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.image-container {
+    width: 85%;
+    height: 85%;
+	aspect-ratio: 10 / 9; /* Maintain aspect ratio */
+	overflow: hidden;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+	border-top-left-radius: 20px;
+	border-bottom-left-radius: 20px;
+}
+
+
+
+/* Right Section Styles */
+.right-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #1f2937;
+    color: #e5e7eb;
+    text-align: center;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.right-section header {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #3b82f6;
+}
+
+.verify-form {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-top: 20px;
+}
+
+.verify-form label {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #d1d5db;
+}
+
+.verify-form input {
+    padding: 12px;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    border: 1px solid #4b5563;
+    border-radius: 5px;
+    background-color: #f9fafb;
+    color: #374151;
+}
+
+.verify-form input:focus {
+    border-color: #3b82f6;
+    outline: none;
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+}
+
+.verify-form .error-message-field {
+    color: #ef4444;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    display: none;
+}
+
+.verify-form button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #3b82f6;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 20px;
+}
+
+.verify-form button:hover {
+    background-color: #2563eb;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) { /* For tablets */
+    .verify-container {
+        grid-template-columns: 1fr; /* Stack sections vertically */
+    }
+
+    .left-section,
+    .right-section {
+        border-radius: 0; /* Remove border radius for stacked layout */
+    }
+
+    .image-container {
+        height: 300px; /* Adjust image height */
+    }
+
+    .right-section {
+        padding: 10px 20px;
+    }
+
+    .verify-form {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 768px) { /* For small tablets and large phones */
+    .verify-container {
+        padding: 10px; /* Reduce padding for smaller screens */
+    }
+
+    .image-container {
+        height: 200px; /* Reduce height for smaller screens */
+    }
+
+    .right-section header {
+        font-size: 1.5rem;
+    }
+
+    .verify-form label {
+        font-size: 1rem;
+    }
+
+    .verify-form input {
+        font-size: 1rem;
+    }
+
+    .verify-form button {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 480px) { /* For phones */
+    .verify-container {
+        padding: 10px 10px; /* Smaller padding for very small screens */
+    }
+
+    .left-section {
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+
+    .image-container {
+		width: 75%;
+		height: 75%;
+    }
+
+    .image-container img {
+        border-top-right-radius: 20px;
+        border-bottom-left-radius: 0px;
+    }
+
+    .right-section {
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+
+    .right-section header {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+
+    .verify-form {
+        width: 100%;
+    }
+
+    .verify-form input {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+    .verify-form button {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+}
+
+.prev-page {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: row; /* Align items horizontally */
+    justify-content: space-around;; /* Center items horizontally */
+    gap: 15px; /* Add spacing between items */
+    margin-top: 25px;
+    list-style: none; /* Remove bullet points from the list */
+    padding: 0; /* Remove extra padding */
+}
+
+
+.prev-page li {
+    display: flex; /* Use flexbox */
+    align-items: center; /* Align icon and text in the center vertically */
+    justify-content: center; /* Center content horizontally */
+    transition: transform 0.3s ease; /* Smooth transition for scaling */
+}
+
+
+.prev-page a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none; /* Remove underline from links */
+    color: rgba(59, 130, 246, 0.8); /* Initial icon color */
+    font-size: 24px; /* Icon size */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+    padding: 10px;
+    border-radius: 10px; /* Add rounded corners for hover effect */
+}
+
+.prev-page a i {
+    margin-bottom: 5px; /* Space between icon and text */
+    font-size: 24px; /* Adjust icon size */
+}
+
+.prev-page a span {
+    font-size: 14px; /* Adjust text size */
+    display: block; /* Ensure the text is treated as a block element */
+}
+
+/* Hover Effects */
+.prev-page li:hover {
+    transform: scale(1.1); /* Scale up the entire list item */
+}
+
+.prev-page li:hover a i {
+    transform: scale(1.2); /* Scale up the icon */
+}
+
+
+.prev-page a:hover {
+    background-color: rgba(59, 130, 246, 0.1); /* Light blue background on hover */
+    color: #3b82f6; /* Brighter blue for icon */
+    transform: scale(1.1); /* Slightly enlarge the element */
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); /* Add a soft shadow */
+}
+

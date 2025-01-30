@@ -1,0 +1,229 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%; /* Ensures body and html take full height */
+    margin: 0; /* Removes default margins */
+}
+
+body {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    background: url('../images/back-car.webp') no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+    overflow: hidden; /* Prevents unnecessary scrollbars */
+}
+
+body::before {
+    content: '';
+    position: fixed; /* Covers the entire viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.05)); /* Gradient for depth */
+    backdrop-filter: blur(2px) saturate(150%); /* Strong blur and saturation */
+    -webkit-backdrop-filter: blur(4px) saturate(150%);
+    z-index: -1; /* Ensure it remains behind content */
+}
+
+
+.container {
+    display: grid;
+    grid-column: span 5;
+    align-self: center;
+    padding: 20px;
+}
+
+.form-container {
+    background: rgba(0, 0, 0, 0.5); /* Medium-dark semi-transparent background */
+    border-radius: 20px; /* Smooth rounded corners */
+    padding: 30px;
+    color: white;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); /* Slightly darker shadow */
+    backdrop-filter: blur(8px) saturate(150%); /* Enhanced blur and saturation */
+    -webkit-backdrop-filter: blur(8px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+    width: 490px; /* Same width for consistency */
+}
+
+
+.form-content {
+    max-height: calc(100vh - 120px); /* Ensures no overflow issues */
+    overflow-y: auto; /* Enables scrolling within the form */
+    padding: 30px;
+}
+
+.form-content::-webkit-scrollbar {
+    display: none; /* Hides the scrollbar for WebKit browsers */
+}
+
+.Heading {
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.Heading h1 {
+    font-size: 24px;
+	color: rgba(0, 128, 255, 0.8);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    margin: 0;
+}
+
+label {
+    font-size: 16px;
+    color: rgba(128, 255, 255, 0.9);
+}
+
+input, select {
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    outline: none;
+    font-size: 14px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    width: 100%;
+}
+
+input:focus, select:focus {
+    border-color: rgba(0, 0, 0, 0.6);
+}
+
+option{
+	background-color: black;
+}
+
+
+
+
+.register {
+    padding: 12px 20px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: rgba(0, 128, 255, 0.8);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    width: 100%;
+}
+
+.register:hover {
+    background-color: rgba(0, 128, 255, 1);
+    box-shadow: 0px 4px 8px rgba(0, 128, 255, 0.6);
+    transform: scale(1.05);
+}
+
+.register:active {
+    background-color: rgba(0, 100, 200, 1);
+    box-shadow: 0px 2px 4px rgba(0, 100, 200, 0.5);
+    transform: scale(1);
+}
+
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(-20px); }
+    10% { opacity: 1; transform: translateY(0); }
+    90% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-20px); }
+}
+
+
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+    .container {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+
+    .form-container {
+        padding: 20px;
+        width: 100%;
+    }
+
+    .Heading h1 {
+        font-size: 20px;
+    }
+
+    input, select {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .register {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .Heading h1 {
+        font-size: 18px;
+    }
+
+    input, select {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .register {
+        font-size: 12px;
+        padding: 8px;
+    }
+}
+
+.prev-page {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 25px;
+}
+
+.prev-page li {
+    display: flex; /* Use flexbox for list items */
+    flex-direction: column; /* Stack icon and text vertically */
+    align-items: center; /* Center items horizontally */
+	transition: transform 0.3s ease; /* Smooth transition for scaling */
+}
+
+.prev-page a {
+    color: rgba(0, 128, 255, 0.8); /* Match link color with the rest of the form */
+    text-decoration: none; /* Remove underline */
+    text-align: center; /* Center text */
+}
+
+.prev-page a i {
+    margin-bottom: 5px; /* Space between icon and text */
+    font-size: 24px; /* Adjust icon size */
+}
+
+.prev-page a span {
+    font-size: 14px; /* Adjust text size */
+    display: block; /* Ensure the text is treated as a block element */
+}
+
+/* Hover Effects */
+.prev-page li:hover {
+    transform: scale(1.1); /* Scale up the entire list item */
+}
+
+.prev-page li:hover a i {
+    transform: scale(1.2); /* Scale up the icon */
+}
+
+
+

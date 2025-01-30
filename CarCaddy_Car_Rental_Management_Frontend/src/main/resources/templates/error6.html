@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Error</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<header>
+    <h1>Error</h1>
+</header>
+<div>
+    <p th:text="${errorMessage}"></p>
+    <a th:href="@{/maintenance/list}">Back to Maintenance List</a>
+</div>
+</body>
+</html>

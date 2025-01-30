@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Employee</title>
+</head>
+<body>
+    <h1>Edit Employee</h1>
+
+    <form th:action="@{/employees/edit/{employeeId}(employeeId=${employee.employeeId})}" th:object="${employee}" method="post">
+        <div>
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" th:field="*{fullName}" required />
+        </div>
+
+        <div>
+            <label for="emailId">Email</label>
+            <input type="email" id="emailId" th:field="*{emailId}" required />
+        </div>
+
+        <div>
+            <label for="contactNumber">Contact Number</label>
+            <input type="text" id="contactNumber" th:field="*{contactNumber}" required />
+        </div>
+
+        <div>
+            <label for="accountType">Account Type</label>
+            <input type="text" id="accountType" th:field="*{accountType}" required />
+        </div>
+
+        <div>
+            <button type="submit">Save Changes</button>
+        </div>
+    </form>
+
+    <!-- Display error message if any -->
+    <div th:if="${error}">
+        <p th:text="${error}" style="color:red;"></p>
+    </div>
+
+    <!-- Display success message if any -->
+    <div th:if="${success}">
+        <p th:text="${success}" style="color:green;"></p>
+    </div>
+</body>
+</html>

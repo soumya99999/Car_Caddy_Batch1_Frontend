@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/about.css">
+      <link rel="stylesheet" th:href="@{/css/navbar.css}">
+     <link rel="stylesheet" th:href="@{/css/Hero.css}">
+    <link rel="stylesheet" th:href="@{/css/Card-car.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+</head>
+<body>
+        <nav class="navbar">
+        <div class="logo">
+            <img th:src="@{/images/logo.png}" alt="Car Management Logo">
+        </div>
+        <ul class="nav-links">
+            <li><a th:href="@{/user/home}">Home</a></li>
+            <li><a th:href="@{/user/filter}">Find</a></li>
+               <li><a th:href="@{/bookings}">My Bookings</a></li>
+            <li><a th:href="@{/contact}"  >Contact</a></li>
+            <li><a th:href="@{/about}" class="home-link">About</a></li>
+            <li><a th:href="@{/profile}">My Profile</a></li>
+        </ul>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- About Section -->
+    <section class="about-section py-5">
+        <div class="container text-center">
+            <h1 class="display-4 mb-4">About Our Car Rental System</h1>
+            <p class="lead mb-5">We provide an easy-to-use platform for automating your car rental experience. Our system simplifies the entire process of renting a vehicle, from booking to returning, making it hassle-free and accessible to all.</p>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <img src="/images/about-car.png" alt="About us image" class="img-fluid rounded">
+                </div>
+                <div class="col-md-6">
+                    <h3>Our Mission</h3>
+                    <p>Our mission is to revolutionize the car rental experience. We offer an intuitive and automated system to rent, manage, and return cars with just a few clicks. Whether you're on a short trip or need a long-term vehicle, we make renting cars simple, efficient, and transparent.</p>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-md-4">
+                    <h4>Why Choose Us?</h4>
+                    <ul>
+                        <li>Automated Booking System for easy rentals</li>
+                        <li>Wide selection of vehicles to choose from</li>
+                        <li>24/7 customer support for any assistance</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4>Our Vision</h4>
+                    <p>We aim to provide a seamless and automated car rental service that allows customers to make quick, informed, and hassle-free decisions about their travel needs. Our goal is to set new standards in the industry by integrating technology into every aspect of the rental process.</p>
+                </div>
+                <div class="col-md-4">
+                    <h4>Contact Us</h4>
+                    <p>If you have any questions or need further assistance, don't hesitate to reach out to our support team. We're here to ensure you have the best car rental experience possible!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <section>
+    <footer>
+      <div class="footer-container">
+        <div class="footer-section">
+          <h3>CarCaddy</h3>
+          <p>Your ultimate car companion, ensuring hassle-free car management and maintenance.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a th:href="@{/user/home}" >Home</a></li>
+            <li><a th:href="@{/user/filter}">Find</a></li>
+            <li><a th:href="@{/bookings}">My Bookings</a></li>
+            <li><a th:href="@{/contact}">Contact Us</a></li>
+            <li><a th:href="@{/about}" class="home-link">About</a></li>
+            <li><a th:href="@{/profile}">My Profile</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Contact Us</h4>
+          <p>Email: support@carcaddy.com</p>
+          <p>Phone: +1-800-123-4567</p>
+          <p>Address: 123 CarCaddy St, AutoCity, USA</p>
+        </div>
+        <div class="footer-section">
+          <h4>Follow Us</h4>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </section>  
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Car Management System. All rights reserved.</p>
+            <ul class="social-links">
+                <li><a href="https://facebook.com" target="_blank">
+                    <img th:src="@{/images/facebook-icon.png}" alt="Facebook">
+                </a></li>
+                <li><a href="https://twitter.com" target="_blank">
+                    <img th:src="@{/images/twitter-icon.png}" alt="Twitter">
+                </a></li>
+                <li><a href="https://instagram.com" target="_blank">
+                    <img th:src="@{/images/instagram-icon.png}" alt="Instagram">
+                </a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script src="/JS/navbar.js"></script>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
