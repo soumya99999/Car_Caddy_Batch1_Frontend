@@ -54,7 +54,7 @@ public class CarManagementController {
 
 	    @PostMapping("/register")
 	    public String submitCarForm(@ModelAttribute Car car, BindingResult result, Model model) {
-	        String BASE_URL = "http://localhost:7000"; // Define backend base URL
+	        String BASE_URL = "http://localhost:8000"; // Define backend base URL
 	      
 
 
@@ -122,7 +122,7 @@ public class CarManagementController {
 
 	    @GetMapping("/update")
 	    public String fetchCarDetails(@ModelAttribute Car car, Model model) {
-	        String backendUrl = "http://localhost:7000/getCar/registrationnumber/" + car.getRegistrationNumber();
+	        String backendUrl = "http://localhost:8000/getCar/registrationnumber/" + car.getRegistrationNumber();
 
 	        try {
 	            ResponseEntity<Car> response = restTemplate.exchange(
@@ -152,7 +152,7 @@ public class CarManagementController {
 
 	    @PostMapping("/update-car")
 	    public String updateCarDetails(@ModelAttribute Car car, BindingResult result, Model model) {
-	        String backendUrl = "http://localhost:7000/updateCar";
+	        String backendUrl = "http://localhost:8000/updateCar";
 
 	        try {
 	            HttpHeaders headers = new HttpHeaders();
@@ -209,7 +209,7 @@ public class CarManagementController {
 	    @GetMapping("/getCar")
 	    public String getCar(@ModelAttribute Car car, Model model) {
 	        String registrationNumber = car.getRegistrationNumber(); // Extract registration number
-	        String backendUrl = "http://localhost:7000/getCar/registrationnumber/" + registrationNumber;
+	        String backendUrl = "http://localhost:8000/getCar/registrationnumber/" + registrationNumber;
 
 	        try {
 	            ResponseEntity<Car> response = restTemplate.exchange(
@@ -243,7 +243,7 @@ public class CarManagementController {
 	    @GetMapping("/findCar")
 	    public String getCar(@RequestParam String registrationNumber, Model model) {
 	    
-	        String backendUrl = "http://localhost:7000/getCar/registrationnumber/" + registrationNumber;
+	        String backendUrl = "http://localhost:8000/getCar/registrationnumber/" + registrationNumber;
 
 	        try {
 	            ResponseEntity<Car> response = restTemplate.exchange(

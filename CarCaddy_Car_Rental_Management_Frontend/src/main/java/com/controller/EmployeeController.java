@@ -1,9 +1,10 @@
 package com.controller;
 
 import java.util.List;
+
 import java.util.Map;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -30,12 +31,44 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.model.Employee;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
-@RequestMapping("/")
 public class EmployeeController {
+	
+	private final String backendUrl = "http://localhost:8000/api/employees";
+	
+	@Autowired
+    private RestTemplate restTemplate;
 
-    private final String backendUrl = "http://localhost:7000/api/employees";
-
+    @GetMapping("/admin/home")
+    public String adminHome() {
+        return "admin/home"; // Renders admin-home.html
+    }
+    
+    @GetMapping("/admin/login")
+    public String showALogInPage() {
+        return "admin/login"; 
+    }
+    
+    @GetMapping("/admin")
+    public String entry() {
+        return "admin/entry";
+    }
+    
+    @GetMapping("/admin/profile")
+    public String showProfile(Model model, HttpSession session) {
+        Employee employee = (Employee) session.getAttribute("loggedInAdmin");
+        if (employee == null) {
+            return "redirect:/admin/login"; 
+        }
+        model.addAttribute("employee", employee);
+        return "admin/profile"; // Thymeleaf template name
+    }
+    
+    
+    
+  
     // Helper method to extract error message
     private String extractErrorMessage(HttpClientErrorException e) {
         try {
@@ -47,29 +80,17 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("//")
-    public String showHomePage() {
-        return "home"; 
-    }
+  
 
-    @GetMapping("/contact")
-    public String showContactPage() {
-        return "contact"; 
-    }
 
-    @GetMapping("//about")
-    public String showAboutPage() {
-        return "about"; 
-    }
-
-    @GetMapping("//register")
+    @GetMapping("/admin/register")
     public String showRegisterPage(Model model) {
         model.addAttribute("employee", new Employee());
-        return "register";
+        return "admin/register";
     }
 
-    @PostMapping("//register")
-    public String registerEmployee(@ModelAttribute("employee") Employee employee, BindingResult result, Model model) {
+    @PostMapping("/admin/register")
+    public String registerEmployee(@ModelAttribute Employee employee, BindingResult result, Model model) {
         String url = backendUrl + "/register";
         RestTemplate restTemplate = new RestTemplate();
         try {
@@ -79,7 +100,7 @@ public class EmployeeController {
     
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, request, String.class);
             model.addAttribute("success", response.getBody());
-            return "login";
+            return "admin/login";
     
         } catch (HttpClientErrorException e) {
             // Parse and display validation errors from backend
@@ -103,17 +124,14 @@ public class EmployeeController {
 					result.rejectValue(field,"",errorMsg);
 				}
     
-            return "register";
+            return "admin/register";
         }
     }
     
-    @GetMapping("///login")
-    public String showLoginPage() {
-        return "login";
-    }
 
-    @PostMapping("///login")
-    public String login(@RequestParam String emailId, @RequestParam String password, Model model) {
+
+    @PostMapping("/admin/login")
+    public String login(@RequestParam String emailId, @RequestParam String password, Model model,HttpSession session) {
 //        String url = backendUrl + "/login?emailId=" + emailId + "&password=" + password;
     	 String url = backendUrl + "/login/" + emailId + "/" + password;
         RestTemplate restTemplate = new RestTemplate();
@@ -122,16 +140,18 @@ public class EmployeeController {
 
             if (employee != null && employee.getIsFirstLogin()) {
                 model.addAttribute("emailId", emailId);
-                return "change-password";
+                return "admin/change-password";
             }
 
             model.addAttribute("fullName", employee.getFullName());
-            return "welcome";
+            session.setAttribute("loggedInAdmin", employee);
+            return "admin/home";
 
         } catch (HttpClientErrorException e) {
             String errorMessage = extractErrorMessage(e);
             model.addAttribute("error", errorMessage);
-            return "login";
+            
+            return "admin/login";
         }
     }
 
@@ -145,125 +165,79 @@ public class EmployeeController {
 
             Employee employee = restTemplate.postForObject(url, null, Employee.class);
             model.addAttribute("success", "Password updated successfully. Please login again.");
-            return "login";
+            return "admin/login";
 
         } catch (HttpClientErrorException e) {
             String errorMessage = extractErrorMessage(e);
             model.addAttribute("error", errorMessage);
-            return "change-password";
+            return "admin/change-password";
         }
     }
-
-    // Get employee details by employeeId
-    @GetMapping("/details/{employeeId}")
-    public String getEmployeeDetails(@RequestParam Long employeeId, Model model) {
-        String url = backendUrl + "/getEmployeeById/" + employeeId;
-        RestTemplate restTemplate = new RestTemplate();
-        try {
-            Employee employee = restTemplate.getForObject(url, Employee.class);
-            model.addAttribute("employee", employee);
-            return "employee-details";
-        } catch (HttpClientErrorException e) {
-            String errorMessage = extractErrorMessage(e);
-            model.addAttribute("error", errorMessage);
-            return "statuspage";  // Return status page in case of error
-        }
-    }
-
-    // Get all employees
-    @GetMapping("/all")
+    // View all employees
+    @GetMapping("/admin/list")
     public String getAllEmployees(Model model) {
-        String url = backendUrl + "/employees";  // Backend URL to get all employees
-        RestTemplate restTemplate = new RestTemplate();
-        try {
-            ResponseEntity<List<Employee>> response = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<Employee>>() {}
-            );
-            model.addAttribute("employees", response.getBody());  // Add employee list to model
-            return "employee-list";  // Return employee list page
-        } catch (HttpClientErrorException | HttpServerErrorException e) {
-            model.addAttribute("error", "Error fetching employees: " + e.getMessage());
-        } catch (RestClientException e) {
-            model.addAttribute("error", "Service unavailable. Please try again later.");
-        } catch (Exception e) {
-            model.addAttribute("error", "An unexpected error occurred.");
-        }
-        
-        return "error";  
+        Employee[] employees = restTemplate.getForObject(backendUrl + "/employees", Employee[].class);
+        model.addAttribute("employees", employees);
+        return "admin/employee-list";
     }
 
-    // Delete employee by employeeId
-    @GetMapping("/delete/{employeeId}")
-    public String deleteEmployee(@RequestParam Long employeeId, Model model) {
-        String url = backendUrl + "/delete/" + employeeId;  // Endpoint to delete employee
-        RestTemplate restTemplate = new RestTemplate();
-        try {
-            restTemplate.delete(url);  // Call backend to delete employee
-            model.addAttribute("success", "Employee deleted successfully.");
-            return "redirect:/employees";  // Redirect to employee list after successful deletion
-        } catch (HttpClientErrorException e) {
-            String errorMessage = extractErrorMessage(e);
-            model.addAttribute("error", errorMessage);
-            return "employee-list";  // Return to employee list page if error occurs
-        }
+    // Show form to update employee details
+    @GetMapping("/admin/update/{employeeId}")
+    public String showUpdateForm(@PathVariable Long employeeId, Model model) {
+        Employee employee = restTemplate.getForObject(backendUrl + "/getEmployeeById/" + employeeId, Employee.class);
+        model.addAttribute("employee", employee);
+        return "admin/update-employee";
     }
-
-
-    // Show edit employee page by employeeId
-    @GetMapping("/edit/{employeeId}")
-    public String showEditEmployeePage(@PathVariable Long employeeId, Model model) {
-        String url = backendUrl + "/" + employeeId; 
-        RestTemplate restTemplate = new RestTemplate();
-        try {
-            Employee employee = restTemplate.getForObject(url, Employee.class);  
-            model.addAttribute("employee", employee);
-            return "edit-employee";  // Show employee edit page
-        } catch (HttpClientErrorException e) {
-            String errorMessage = extractErrorMessage(e);
-            model.addAttribute("error", errorMessage);
-            return "employee-list";  // Return to employee list page if error occurs
-        }
-    }
-
-    // Update employee details by employeeId
-    @PostMapping("/edit/{employeeId}")
-    public String editEmployee(@PathVariable Long employeeId, @ModelAttribute("employee") Employee employee , BindingResult result, Model model) {
-        String url = backendUrl + "/updateEmployee/" + employeeId;  // Endpoint to update employee details
+    
+    
+    @PostMapping("/admin/update/{employeeId}")
+    public String updateEmployee(@PathVariable Long employeeId,
+                                 @ModelAttribute("employee") Employee employee,
+                                 BindingResult result,
+                                 Model model) {
+        String url = backendUrl + "/updateEmployee/" + employeeId;
         RestTemplate restTemplate = new RestTemplate();
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.set("Content-Type", "application/json");
             HttpEntity<Employee> request = new HttpEntity<>(employee, headers);
-            restTemplate.exchange(url, HttpMethod.PUT, request, String.class);  // Call backend to update employee
-            model.addAttribute("success", "Employee updated successfully.");
-            return "redirect:/employees";  // Redirect to employee list after successful update
+    
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, request, String.class);
+            return "redirect:/admin/list"; // Redirect to the employee list after successful update
+    
         } catch (HttpClientErrorException e) {
             // Parse and display validation errors from backend
-            Map<String, String> errors=null;
-					try {
-						errors = new ObjectMapper().readValue(
-						    e.getResponseBodyAsString(), new TypeReference<Map<String, String>>() {});
-					} catch (JsonMappingException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (JsonProcessingException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-//				
-			
-				// Map backend errors to BindingResult				
-				for(Map.Entry<String, String> entryset : errors.entrySet()) {
-					String field = entryset.getKey();
-					String errorMsg = entryset.getValue();							
-					result.rejectValue(field,"",errorMsg);
-				}
-//            model.addAttribute("error", errorMessage);
-            return "edit-employee";  // Return to edit page if error occurs
+            Map<String, String> errors = null;
+            try {
+                errors = new ObjectMapper().readValue(
+                    e.getResponseBodyAsString(), new TypeReference<Map<String, String>>() {});
+            } catch (JsonMappingException e1) {
+                e1.printStackTrace();
+            } catch (JsonProcessingException e1) {
+                e1.printStackTrace();
+            }
+    
+            // Map backend errors to BindingResult
+            if (errors != null) {
+                for (Map.Entry<String, String> entry : errors.entrySet()) {
+                    String field = entry.getKey();
+                    String errorMsg = entry.getValue();
+                    result.rejectValue(field, "", errorMsg);
+                }
+            }
+    
+            // Add the employee object back to the model to retain form input
+            model.addAttribute("employee", employee);
+            return "admin/update-employee"; // Return to the update form with errors
         }
     }
 
+    // Delete an employee
+    @GetMapping("/admin/delete/{employeeId}")
+    public String deleteEmployee(@PathVariable Long employeeId) {
+        restTemplate.delete(backendUrl + "/delete/" + employeeId);
+        return "redirect:/admin/list";
+    }
+    
+    
 }

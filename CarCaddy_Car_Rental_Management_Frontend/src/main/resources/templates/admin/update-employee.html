@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Update Employee</title>
+    <style>
+        /* styles.css - Can be externalized and linked to both pages */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f0f2f5;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #34495e;
+            font-weight: 600;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #bdc3c7;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        .error {
+            color: #e74c3c;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            background: #3498db;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s ease, background 0.3s ease;
+        }
+
+        button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .email-display {
+            font-weight: 500;
+            color: #2c3e50;
+            padding: 8px 0;
+            display: inline-block;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Update Employee Details</h1>
+        <form th:action="@{/admin/update/{employeeId}(employeeId=${employee.employeeId})}" th:object="${employee}" method="post">
+            <input type="hidden" th:field="*{employeeId}" />
+            
+            <div class="form-group">
+                <label for="fullName">Full Name:</label>
+                <input type="text" th:field="*{fullName}" id="fullName" />
+                <div th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" class="error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label>Email:</label>
+                <span class="email-display" th:text="${employee.emailId}"></span>
+                <input type="hidden" th:field="*{emailId}" />
+            </div>
+            
+            <div class="form-group">
+                <label for="contactNumber">Contact Number:</label>
+                <input type="text" th:field="*{contactNumber}" id="contactNumber" />
+                <div th:if="${#fields.hasErrors('contactNumber')}" th:errors="*{contactNumber}" class="error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="dob">Date of Birth:</label>
+                <input type="date" th:field="*{dob}" id="dob" />
+                <div th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}" class="error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="accountType">Account Type:</label>
+                <select th:field="*{accountType}" id="accountType" onchange="toggleExpiryDate()">
+                    <option value="permanent">Permanent</option>
+                    <option value="temporary">Temporary</option>
+                </select>
+                <div th:if="${#fields.hasErrors('accountType')}" th:errors="*{accountType}" class="error"></div>
+            </div>
+            
+            <div class="form-group" id="expiryDateGroup" th:classappend="${employee.accountType != 'temporary'} ? 'hidden'">
+                <label for="expiryDate">Expiry Date (if temporary):</label>
+                <input type="date" th:field="*{expiryDate}" id="expiryDate" />
+                <div th:if="${#fields.hasErrors('expiryDate')}" th:errors="*{expiryDate}" class="error"></div>
+            </div>
+            
+            <button type="submit">Update</button>
+        </form>
+    </div>
+
+    <script>
+        // JavaScript to toggle expiry date visibility
+        function toggleExpiryDate() {
+            const accountType = document.getElementById('accountType').value;
+            const expiryDateGroup = document.getElementById('expiryDateGroup');
+            
+            if (accountType === 'temporary') {
+                expiryDateGroup.classList.remove('hidden');
+            } else {
+                expiryDateGroup.classList.add('hidden');
+            }
+        }
+
+        // Initialize the form based on the employee's account type
+        document.addEventListener('DOMContentLoaded', function() {
+            const accountType = document.getElementById('accountType').value;
+            const expiryDateGroup = document.getElementById('expiryDateGroup');
+            
+            if (accountType === 'temporary') {
+                expiryDateGroup.classList.remove('hidden');
+            } else {
+                expiryDateGroup.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

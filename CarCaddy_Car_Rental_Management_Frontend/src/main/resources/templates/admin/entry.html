@@ -101,11 +101,10 @@
         <div class="logo">
             <img th:src="@{/images/logo.png}" alt="Car Management Logo">
         </div>
-        <h1 >CarCarddy Rental System</h1>
-         <ul class="nav-links">
-            <li><a th:href="@{/admin/home}" class="home-link">Home</a></li>
-            <li><a th:href="@{/admin/profile}">My Profile</a></li>
-            
+        <h1>CarCarddy Rental System</h1>
+        <ul class="nav-links">
+            <li><a th:href="@{/admin/login}">Login</a></li>
+            <li><a th:href="@{/admin/register}">Sign Up</a></li>
         </ul>
         <div class="hamburger">
             <span></span>
@@ -132,24 +131,7 @@
     
     
     
-    <!-- Main Content -->
-    <div class="container">
-        <a th:href="@{/car-management/home}" class="module-box">
-            Car Management
-        </a>
-        <a th:href="@{/employee-management/home}" class="module-box">
-            Employee Management
-        </a>
-        <a th:href="@{/rental-management/home}" class="module-box">
-            Rental Management
-        </a>
-        <a th:href="@{/customer-management/home}" class="module-box">
-            Customer Management
-        </a>
-        <a th:href="@{/maintenanace-management/home}" class="module-box">
-            Maintenance Management
-        </a>
-    </div>
+
 <!-- Footer -->  
 
    <section>
@@ -161,14 +143,7 @@
         </div>
         <div class="footer-section">
           <h4>Quick Links</h4>
-          <ul>
-            <li><a th:href="@{/admin/home}" class="home-link">Home</a></li>
-            <li><a th:href="@{/car-management/home}">Car Management</a></li>
-            <li><a th:href="@{/employee-management/home}">Employee Management</a></li>
-            <li><a th:href="@{/rental-management/home}">Rental Management</a></li>
-            <li><a th:href="@{/customer-management/home}">Customer Management</a></li>
-            <li><a th:href="@{/maintenance-management/home}">Maintenance Management</a></li>
-          </ul>
+         
         </div>
         <div class="footer-section">
           <h4>Contact Us</h4>

@@ -11,6 +11,21 @@
      <link rel="stylesheet" th:href="@{/css/Hero.css}">
     <link rel="stylesheet" th:href="@{/css/Card-car.css}">
     <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <style>
+    .profile-section {
+    background-color: #f8f9fa;
+    padding: 40px 0;
+}
+
+.card {
+    border-radius: 12px;
+}
+
+.card img {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+    
+    </style>
 </head>
 <body>
     <!-- Navbar -->
@@ -32,6 +47,35 @@
             <span></span>
         </div>
     </nav>
+    
+    <section class="profile-section">
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">My Profile</h2>
+        <div class="card shadow p-4">
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <img th:src="@{/images/user-solid.svg}" alt="Profile Picture" class="img-fluid rounded-circle mb-3" style="width: 70%;">
+                </div>
+                <div class="col-md-8">
+                    <h3 th:text="${customer.name}"></h3>
+                    <p><strong>Email:</strong> <span th:text="${customer.email}"></span></p>
+                    <p><strong>Phone:</strong> <span th:text="${customer.phoneNumber}"></span></p>
+                    <p><strong>Address:</strong> <span th:text="${customer.address}"></span></p>
+                    <p><strong>Loyalty Points:</strong> <span th:text="${customer.loyaltyPoints}"></span></p>
+                    <p><strong>Blacklist Status:</strong> 
+                        <span th:text="${customer.blacklistStatus} ? 'Blacklisted' : 'Not Blacklisted'"></span>
+                    </p>
+                    <p><strong>Date of Birth:</strong> <span th:text="${customer.dob}"></span></p>
+                    <p><strong>Driving License:</strong> <span th:text="${customer.drivingLicense}"></span></p>
+                    <div class="mt-4">
+                        <a th:href="@{/customers/edit}" class="btn btn-primary me-3">Update Profile</a>
+                        <a th:href="@{/logout}" class="btn btn-danger">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
   
 
