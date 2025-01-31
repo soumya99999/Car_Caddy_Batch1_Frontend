@@ -10,7 +10,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,20 +22,20 @@ public class MaintenanceController {
 	@Autowired
 	private RestTemplate restTemplate;
 	
-    @GetMapping("/////")
+    @GetMapping("/maintenance-management/home")
     public String index() {
-        return "index6";
+        return "admin/maintenance-management/index6";
     }
 
-    @GetMapping("/maintenance")
+    @GetMapping("/maintenance/register")
     public String showMaintenanceForm(Model model) {
         model.addAttribute("maintainance", new Maintenance());
-        return "create-maintenance6";
+        return "admin/maintenance-management/create-maintenance6";
     }
 
-    @PostMapping("/delete/{id}")
-    public String deleteRequest(@PathVariable long id){
-        String url = "http://localhost:7000/maintenance/delete/"+id;
+    @PostMapping("/maintenance/delete/{id}")
+    public String deleteRequest(@PathVariable Long id){
+        String url = "http://localhost:8000/maintenance/delete/"+id;
 //        System.out.println(url);
         String response = restTemplate.getForObject(url, String.class);
         System.out.println(response.toString());
@@ -44,7 +43,7 @@ public class MaintenanceController {
     }
 
     @PostMapping("/maintenance/edit/{id}")
-    public String updateRecord(@PathVariable("id") long id,@ModelAttribute("maintenance") Maintenance maintainance, Model model){
+    public String updateRecord(@PathVariable Long id,@ModelAttribute("maintenance") Maintenance maintainance, Model model){
         System.out.println("updated maintenance data : "+maintainance.toString());
         boolean flag = false;
 //        if(maintainance.getCarId()<0){
@@ -66,7 +65,7 @@ public class MaintenanceController {
         if(flag) {
             return "/maintenance/edit/{id}(id=${id})";
         }
-        String url = "http://localhost:7000/maintenance/edit/"+id;
+        String url = "http://localhost:8000/maintenance/edit/"+id;
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         HttpEntity<Maintenance> request = new HttpEntity<>(maintainance, headers);
@@ -74,9 +73,9 @@ public class MaintenanceController {
         return "redirect:/maintenance/list";
     }
 
-    @PostMapping("////register")
-    public String submitMaintenanceForm(@ModelAttribute("maintainance") @Validated Maintenance maintainance, Model model){
-        System.out.println(maintainance.toString());
+    @PostMapping("/maintenance/register")
+    public String submitMaintenanceForm(@ModelAttribute Maintenance maintainance, Model model){
+     
         boolean flag = false;
 //        if(maintainance.getCar()<0){
 //            flag = true;
@@ -96,7 +95,7 @@ public class MaintenanceController {
         }
         if(flag) {
         }
-        String url = "http://localhost:7000/maintenance/create";
+        String url = "http://localhost:8000/maintenance/create";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         HttpEntity<Maintenance> request = new HttpEntity<>(maintainance, headers);
@@ -106,8 +105,8 @@ public class MaintenanceController {
     }
 
     @GetMapping("/maintenance/list")
-    public String viewMaintenanceRecords(Model model ,@RequestParam(value = "msg", defaultValue = "") String msg) {
-        String url = "http://localhost:7000/maintenance/data";
+    public String viewMaintenanceRecords(Model model ,@RequestParam(defaultValue = "") String msg) {
+        String url = "http://localhost:8000/maintenance/data";
         String response = restTemplate.getForObject(url, String.class);
         // Convert the JSON response to a List of MaintenanceRecord objects
         ObjectMapper objectMapper = new ObjectMapper();
@@ -118,11 +117,11 @@ public class MaintenanceController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "view-maintenance6"; // No redirect needed, render the template directly
+        return "admin/maintenance-management/view-maintenance6"; // No redirect needed, render the template directly
     }
 
     @GetMapping("/maintenance/delete/{id}")
-    public String deleteMaintenanceRecord(@PathVariable("id") Integer id, Model model) {
+    public String deleteMaintenanceRecord(@PathVariable Long id, Model model) {
         String url = "localhost:7000/maintenance/delete/" + id;
         String response = restTemplate.getForObject(url, String.class);
         return "redirect:/maintenance/list";
@@ -131,8 +130,8 @@ public class MaintenanceController {
 
 
     @GetMapping("/maintenance/edit/{id}")
-    public String showEditMaintenanceForm(@PathVariable("id") Integer id, Model model) {
-        String url = "http://localhost:7000/maintenance/data/"+id;
+    public String showEditMaintenanceForm(@PathVariable("id") Long id, Model model) {
+        String url = "http://localhost:8000/maintenance/data/"+id;
         String response = restTemplate.getForObject(url, String.class);
        // Convert the JSON response to a List of MaintenanceRecord objects
        ObjectMapper objectMapper = new ObjectMapper();
@@ -142,6 +141,6 @@ public class MaintenanceController {
        } catch (Exception e) {
            e.printStackTrace();
        }
-        return "edit-maintenance6"; // Return the edit form view
+        return "admin/maintenance-management/edit-maintenance6"; // Return the edit form view
     }
 }

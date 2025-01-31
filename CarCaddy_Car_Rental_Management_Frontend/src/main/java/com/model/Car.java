@@ -2,7 +2,9 @@ package com.model;
 
 
 import java.math.BigDecimal;
+
 import java.math.RoundingMode;
+import java.util.List;
 
 
 import org.springframework.stereotype.Component;
@@ -17,7 +19,7 @@ import org.springframework.stereotype.Component;
 public class Car {
 
 
-    private int carId;
+    private Long carId;
 
 
     private String registrationNumber;
@@ -50,6 +52,10 @@ public class Car {
     private String color;
     
     private String location;
+    
+    private List<Rental> bookings;
+    
+    private List<Maintenance> maintenance;
 
     
 
@@ -60,11 +66,11 @@ public class Car {
 
     // Getters and setters
 
-    public int getCarId() {
+    public Long getCarId() {
         return carId;
     }
 
-    public void setCarId(int carId) {
+    public void setCarId(Long carId) {
         this.carId = carId;
     }
 
@@ -175,6 +181,24 @@ public class Car {
 	public void setLocation(String location) {
 		this.location = location;
 	}
+
+	public List<Rental> getBookings() {
+		return bookings;
+	}
+
+	public void setBookings(List<Rental> bookings) {
+		this.bookings = bookings;
+	}
+
+	public List<Maintenance> getMaintenance() {
+		return maintenance;
+	}
+
+	public void setMaintenance(List<Maintenance> maintenance) {
+		this.maintenance = maintenance;
+	}
+	
+	
 
 
 

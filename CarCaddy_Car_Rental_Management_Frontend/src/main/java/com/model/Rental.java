@@ -2,12 +2,16 @@ package com.model;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Rental {
 
 	private Long bookingId;
 	private String pickupLocation;
 	private String dropLocation;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate startDate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate endDate;
 	private Float fare;
 	private Float discount;
@@ -93,4 +97,22 @@ public class Rental {
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
 	}
+
+	public Car getCar() {
+		return car;
+	}
+
+	public void setCar(Car car) {
+		this.car = car;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+	
+	
 }

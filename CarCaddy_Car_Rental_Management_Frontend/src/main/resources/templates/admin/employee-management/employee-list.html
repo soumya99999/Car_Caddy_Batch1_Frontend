@@ -155,8 +155,8 @@
                         <td th:text="${employee.expiryDate}"></td>
                         <td>
                             <div class="actions">
-                                <a th:href="@{/update/{employeeId}(employeeId=${employee.employeeId})}">Update</a>
-                                <a th:href="@{/delete/{employeeId}(employeeId=${employee.employeeId})}">Delete</a>
+                                <a th:href="@{/update/employee/{employeeId}(employeeId=${employee.employeeId})}">Update</a>
+                                <a th:href="@{/delete/employee/{employeeId}(employeeId=${employee.employeeId})}">Delete</a>
                             </div>
                         </td>
                     </tr>

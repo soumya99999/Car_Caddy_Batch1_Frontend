@@ -40,6 +40,14 @@ public class EmployeeController {
 	
 	@Autowired
     private RestTemplate restTemplate;
+	
+	@GetMapping("/employee-management/home")
+    public String showHomePage(Model model) {
+		 Employee[] employees = restTemplate.getForObject(backendUrl + "/employees", Employee[].class);
+	       model.addAttribute("employees", employees);
+        return "admin/employee-management/employee-list"; 
+    }
+	
 
     @GetMapping("/admin/home")
     public String adminHome() {
@@ -143,7 +151,6 @@ public class EmployeeController {
                 return "admin/change-password";
             }
 
-            model.addAttribute("fullName", employee.getFullName());
             session.setAttribute("loggedInAdmin", employee);
             return "admin/home";
 
@@ -182,19 +189,23 @@ public class EmployeeController {
     }
 
     // Show form to update employee details
-    @GetMapping("/admin/update/{employeeId}")
-    public String showUpdateForm(@PathVariable Long employeeId, Model model) {
-        Employee employee = restTemplate.getForObject(backendUrl + "/getEmployeeById/" + employeeId, Employee.class);
+    @GetMapping("/admin/update")
+    public String showUpdateFormAdmin(Model model, HttpSession session) {
+    	Employee employee = (Employee) session.getAttribute("loggedInAdmin");
+        if (employee == null) {
+            return "redirect:/admin/login"; 
+        }
         model.addAttribute("employee", employee);
         return "admin/update-employee";
     }
     
     
     @PostMapping("/admin/update/{employeeId}")
-    public String updateEmployee(@PathVariable Long employeeId,
+    public String updateEmployeeAdmin(@PathVariable Long employeeId,
                                  @ModelAttribute("employee") Employee employee,
                                  BindingResult result,
-                                 Model model) {
+                                 Model model,
+                                 HttpSession session) {
         String url = backendUrl + "/updateEmployee/" + employeeId;
         RestTemplate restTemplate = new RestTemplate();
         try {
@@ -203,7 +214,10 @@ public class EmployeeController {
             HttpEntity<Employee> request = new HttpEntity<>(employee, headers);
     
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, request, String.class);
-            return "redirect:/admin/list"; // Redirect to the employee list after successful update
+            
+            session.setAttribute("loggedInAdmin", employee);
+            
+            return "redirect:/admin/profile"; // Redirect to the employee list after successful update
     
         } catch (HttpClientErrorException e) {
             // Parse and display validation errors from backend
@@ -233,11 +247,69 @@ public class EmployeeController {
     }
 
     // Delete an employee
-    @GetMapping("/admin/delete/{employeeId}")
+    @GetMapping("delete/employee/{employeeId}")
     public String deleteEmployee(@PathVariable Long employeeId) {
         restTemplate.delete(backendUrl + "/delete/" + employeeId);
-        return "redirect:/admin/list";
+        return "redirect:/employee-management/home";
     }
+    
+    
+    @GetMapping("/admin/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); // Invalidate session
+        return "redirect:/admin";  // Redirect to home page
+    }
+    
+    
+    @GetMapping("/update/employee/{employeeId}")
+    public String showUpdateForm(@PathVariable Long employeeId, Model model) {
+        Employee employee = restTemplate.getForObject(backendUrl + "/getEmployeeById/" + employeeId, Employee.class);
+        model.addAttribute("employee", employee);
+        return "admin/employee-management/update-employee";
+    }
+    
+    @PostMapping("/update/employee/{employeeId}")
+    public String updateEmployee(@PathVariable Long employeeId,
+                                 @ModelAttribute("employee") Employee employee,
+                                 BindingResult result,
+                                 Model model) {
+        String url = backendUrl + "/updateEmployee/" + employeeId;
+        RestTemplate restTemplate = new RestTemplate();
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Content-Type", "application/json");
+            HttpEntity<Employee> request = new HttpEntity<>(employee, headers);
+    
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, request, String.class);
+            return "redirect:/employee-management/home"; // Redirect to the employee list after successful update
+    
+        } catch (HttpClientErrorException e) {
+            // Parse and display validation errors from backend
+            Map<String, String> errors = null;
+            try {
+                errors = new ObjectMapper().readValue(
+                    e.getResponseBodyAsString(), new TypeReference<Map<String, String>>() {});
+            } catch (JsonMappingException e1) {
+                e1.printStackTrace();
+            } catch (JsonProcessingException e1) {
+                e1.printStackTrace();
+            }
+    
+            // Map backend errors to BindingResult
+            if (errors != null) {
+                for (Map.Entry<String, String> entry : errors.entrySet()) {
+                    String field = entry.getKey();
+                    String errorMsg = entry.getValue();
+                    result.rejectValue(field, "", errorMsg);
+                }
+            }
+    
+            // Add the employee object back to the model to retain form input
+            model.addAttribute("employee", employee);
+            return "admin/employee-management/update-employee"; // Return to the update form with errors
+        }
+    }
+
     
     
 }

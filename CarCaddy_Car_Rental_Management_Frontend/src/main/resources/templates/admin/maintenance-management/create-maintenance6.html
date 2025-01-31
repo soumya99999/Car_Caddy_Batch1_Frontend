@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Maintenance Record</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+    <link rel="stylesheet" th:href="@{/styles.css}">
+    <style>
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+        .success {
+            color: green;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <div class="nav-container">
+
+        <ul class="nav-links">
+            <li><a th:href=@{/maintenance-management/home}>Home</a></li>
+            <li><a th:href="@{/maintenance/register}">Create Maintenance</a></li>
+            <li><a th:href="@{/maintenance/list}">List of Maintenance Records</a></li>
+        </ul>
+    </div>
+</div>
+
+<header style="height:45px">
+
+</header>
+<form method="post" th:action="@{/maintenance/register}" th:object="${maintainance}">
+    <label for="car">Car ID:</label>
+    <input id="car" th:field="*{car.carId}" type="number">
+    <!-- Error message for Car ID -->
+    <div class="error" th:if="${carIdError}" th:text="${carIdError}"></div>
+    <br>
+
+    <label for="description">Description:</label>
+    <textarea id="description" required th:field="*{description}"></textarea>
+    <!-- Error message for Description -->
+    <div class="error" th:if="${DescriptionError}" th:text="${DescriptionError}"></div>
+    <br>
+
+    <label for="maintenanceType">Maintenance Type:</label>
+    <input id="maintenanceType" required th:field="*{maintenanceType}" type="text">
+    <!-- Error message for Maintenance Type -->
+    <div class="error" th:if="${typeError}" th:text="${typeError}"></div>
+    <br>
+
+    <label for="maintenanceCost">Maintenance Cost:</label>
+    <input id="maintenanceCost" name="maintenanceCost" required type="number">
+    <!-- No error message logic provided in your code for this -->
+    <br>
+
+    <label for="maintenanceStatus">Maintenance Status:</label>
+    <input id="maintenanceStatus" required th:field="*{maintenanceStatus}" type="text">
+    <!-- Error message for Maintenance Status -->
+    <div class="error" th:if="${statusError}" th:text="${statusError}"></div>
+    <br>
+    
+    <label for="date">Date:</label>
+    <input id="date" required th:field="*{date}" type="date">
+    <div class="error" th:errors="*{date}"></div>
+    <br>
+
+    <input type="submit" value="Register"/>
+</form>
+
+</body>
+</html>

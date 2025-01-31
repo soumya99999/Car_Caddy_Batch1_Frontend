@@ -2,13 +2,17 @@ package com.model;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Maintenance {
 
 	private Long maintenanceId;
 
 	private Car car;
+	
 	private String maintenanceType;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate date;
 
 	private Double maintenanceCost;

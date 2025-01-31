@@ -1,6 +1,15 @@
 package com.model;
 import java.time.LocalDate;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+
+
+
+
+
 public class Customer {
 
     private Long id;
@@ -11,8 +20,10 @@ public class Customer {
     private String password;
     private int loyaltyPoints = 0;
     private boolean blacklistStatus = false;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dob; // Date of Birth
     private String drivingLicense; // Driving License
+    private List<Rental> rentals;
 
     // Constructors
     public Customer() {
@@ -108,8 +119,18 @@ public class Customer {
     public void setDrivingLicense(String drivingLicense) {
         this.drivingLicense = drivingLicense;
     }
+    
+    
 
-    // Utility Methods
+    public List<Rental> getRentals() {
+		return rentals;
+	}
+
+	public void setRentals(List<Rental> rentals) {
+		this.rentals = rentals;
+	}
+
+	// Utility Methods
     @Override
     public String toString() {
         return "Customer{" +
