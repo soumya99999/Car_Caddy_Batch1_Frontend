@@ -15,7 +15,7 @@
         
         <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
             <!-- Form for Booking -->
-            <form th:action="@{/rentals/book}" method="post" th:object="${rentalRequest}">
+            <form th:action="@{/book}" method="post" th:object="${rentalRequest}">
                 <!-- Customer ID -->
                 <div th:if="${#fields.hasErrors('customer')}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
                     <strong class="font-bold">Error!</strong>
@@ -46,7 +46,7 @@
                 <div class="mb-4">
                     <label for="employee" class="block text-gray-700 text-sm font-bold mb-2">Employee ID:</label>
                     <input type="number" id="employee" th:field="*{employee.employeeId}" required
-                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly>
                 </div>
 
                 <!-- Start Date -->
@@ -86,11 +86,7 @@
                 </div>
 
                 <!-- Discount -->
-                <div class="mb-6">
-                    <label for="discount" class="block text-gray-700 text-sm font-bold mb-2">Discount (%):</label>
-                    <input type="number" step="0.01" id="discount" th:field="*{discount}" required max="99"
-                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                </div>
+               
 
                 <!-- Submit Button -->
                 <div class="flex items-center justify-between">

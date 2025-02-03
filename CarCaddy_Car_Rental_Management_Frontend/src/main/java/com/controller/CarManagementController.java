@@ -208,6 +208,7 @@ public class CarManagementController {
 
 	    @GetMapping("/getCar")
 	    public String getCar(@ModelAttribute Car car, Model model) {
+	    	System.out.println("Get Car Car");
 	        String registrationNumber = car.getRegistrationNumber(); // Extract registration number
 	        String backendUrl = "http://localhost:8000/getCar/registrationnumber/" + registrationNumber;
 
@@ -242,7 +243,7 @@ public class CarManagementController {
 	    
 	    @GetMapping("/findCar")
 	    public String getCar(@RequestParam String registrationNumber, Model model) {
-	    
+	         System.out.println("Find Car");
 	        String backendUrl = "http://localhost:8000/getCar/registrationnumber/" + registrationNumber;
 
 	        try {
@@ -257,6 +258,7 @@ public class CarManagementController {
 	            Car fetchedCar = response.getBody();
 	            if (fetchedCar != null) {
 	                model.addAttribute("car", fetchedCar); // Add car details to the model
+	                
 	                return "car"; // Render car.html template
 	            }
 	        } catch (HttpClientErrorException.NotFound e) {

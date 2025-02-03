@@ -11,7 +11,7 @@
 <form method="post" th:action="@{/maintenance/edit/{id}(id=${maintenance.maintenanceId})}" th:object="${maintenance}">
     <div>
         <label for="car">Car ID:</label>
-        <input id="car" required th:field="*{car}" type="number">
+        <input id="car" required th:field="*{car.carId}" type="number">
     </div>
     <div>
         <label for="description">Maintenance Description:</label>

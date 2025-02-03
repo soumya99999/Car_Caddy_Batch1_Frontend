@@ -20,6 +20,7 @@ public class Customer {
     private String password;
     private int loyaltyPoints = 0;
     private boolean blacklistStatus = false;
+    
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dob; // Date of Birth
     private String drivingLicense; // Driving License

@@ -3,6 +3,7 @@ package com.controller;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,9 @@ import jakarta.servlet.http.HttpSession;
 public class UserController {
 	private final String BASE_URL = "http://localhost:8000"; 
 	
+	@Autowired
+	RestTemplate restTemplate;
+	
 	Customer  customer;
 	
 	@GetMapping("/")
@@ -55,7 +59,12 @@ public class UserController {
 	
 
     @GetMapping("/user/filter")
-	  public String filter(Model model) {
+	  public String filter(Model model, HttpSession session) {
+    	Customer loggedInUser = (Customer) session.getAttribute("loggedInUser");
+    	if(loggedInUser == null) {
+    		return "redirect:/user/login";
+    	}
+    	
 		  model.addAttribute("cars", new ArrayList<Car>());
 		  return "user/filter";
 	  }
@@ -72,7 +81,11 @@ public class UserController {
     }
     
     @GetMapping("/bookings")
-    public String showBookingsPage(Model model) {
+    public String showBookingsPage(Model model, HttpSession session) {
+    	Customer loggedInUser = (Customer) session.getAttribute("loggedInUser");
+    	if(loggedInUser == null) {
+    		return "redirect:/user/login";
+    	}
         return "user/bookings"; 
 
     }
@@ -81,7 +94,7 @@ public class UserController {
     public String showProfile(Model model, HttpSession session) {
         Customer customer = (Customer) session.getAttribute("loggedInUser");
         if (customer == null) {
-            return "redirect:/"; // Redirect to home if not logged in
+            return "redirect:/user/login"; // Redirect to home if not logged in
         }
         model.addAttribute("customer", customer);
         return "user/profile"; // Thymeleaf template name
@@ -155,6 +168,10 @@ public class UserController {
 
     @PostMapping("/customers/edit")
     public String updateCustomer(@ModelAttribute Customer customer, BindingResult result, Model model, HttpSession session) {
+    	Customer loggedInUser = (Customer) session.getAttribute("loggedInUser");
+    	if(loggedInUser == null) {
+    		return "redirect:/user/login";
+    	}
         RestTemplate restTemplate = new RestTemplate();
         try {
             // Use PUT request to update the customer
@@ -243,6 +260,43 @@ public class UserController {
     public String logout(HttpSession session) {
         session.invalidate(); // Invalidate session
         return "redirect:/";  // Redirect to home page
+    }
+    
+    @GetMapping("/user/getCar")
+    public String getCar(@ModelAttribute Car car, Model model, HttpSession session) {
+    	Customer loggedInUser = (Customer) session.getAttribute("loggedInUser");
+    	if(loggedInUser == null) {
+    		return "redirect:/user/login";
+    	}
+    	
+        String registrationNumber = car.getRegistrationNumber(); // Extract registration number
+        String backendUrl = "http://localhost:8000/getCar/registrationnumber/" + registrationNumber;
+
+        try {
+            ResponseEntity<Car> response = restTemplate.exchange(
+                backendUrl,
+                HttpMethod.GET,
+                null,
+                Car.class
+            );
+
+
+            Car fetchedCar = response.getBody();
+            if (fetchedCar != null) {
+                model.addAttribute("car", fetchedCar); // Add car details to the model
+                model.addAttribute("customer", loggedInUser);
+                return "user/car"; // Render car.html template
+            }
+        } catch (HttpClientErrorException.NotFound e) {
+            // Backend returns 404 when the car is not found
+            model.addAttribute("errorMessage", "Enter a valid registration number");
+        } catch (Exception e) {
+            // Handle unexpected errors
+            model.addAttribute("errorMessage", "An unexpected error occurred: " + e.getMessage());
+        }
+
+        return "user/filter"; // Stay on the search page with the error message
+
     }
 
     

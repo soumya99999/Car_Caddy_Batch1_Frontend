@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/car.css}">
+</head>
+<body>
+    <div class="container">
+        <h3>🚗 Car Information</h3>
+
+        <!-- Car Details -->
+        <div th:if="${car != null}" class="car-details-grid">
+            <div class="car-info glassmorphic">
+                <ul>
+                    <li><strong>Model:</strong> <span th:text="${car.model ?: 'N/A'}"></span></li>
+                    <li><strong>Company:</strong> <span th:text="${car.company ?: 'N/A'}"></span></li>
+                    <li><strong>Fuel Type:</strong> <span th:text="${car.fuelType ?: 'N/A'}"></span></li>
+                    <li><strong>Seating Capacity:</strong> <span th:text="${car.seatingCapacity ?: 'N/A'}"></span></li>
+                    <li><strong>Mileage (km/l):</strong> <span th:text="${car.mileage ?: 'N/A'}"></span></li>
+                </ul>
+            </div>
+            
+            <div class="car-model glassmorphic">
+                <iframe src="/car-model.html" class="car-model-frame"></iframe>
+            </div>
+
+            <div class="car-status glassmorphic">
+                <ul>
+                    <li><strong>Car Condition:</strong> <span th:text="${car.carCondition ?: 'N/A'}"></span></li>
+                    <li><strong>Current Status:</strong> <span th:text="${car.currentStatus ?: 'N/A'}"></span></li>
+                    <li><strong>Rental Rate (per day):</strong> ₹<span th:text="${car.rentalRate ?: 'N/A'}"></span></li>
+                    <li><strong>Color:</strong> <span th:text="${car.color ?: 'N/A'}"></span></li>
+                    <li><strong>Location:</strong> <span th:text="${car.location ?: 'N/A'}"></span></li>
+                </ul>
+            </div>
+
+            <!-- Book Car Button -->
+            <button id="bookCarBtn" class="btn btn-primary">Book The Car</button>
+        </div>
+    </div>
+
+    <script>
+        // Inject Thymeleaf variables into JavaScript
+        let carId = "[[${car?.carId}]]";
+        let customerId = "[[${customer?.id}]]";
+        
+
+        document.getElementById("bookCarBtn").addEventListener("click", function() {
+            if (!carId || carId === "null") {
+                alert("Car ID is missing!");
+                return;
+            }
+            if (!customerId || customerId === "null") {
+                alert("User is not logged in!");
+                return;
+            }
+
+            let bookUrl = `/book?carId=${carId}&customerId=${customerId}`;
+            console.log("Booking URL:", bookUrl);
+
+            // Redirect to booking URL
+            window.location.href = bookUrl;
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
