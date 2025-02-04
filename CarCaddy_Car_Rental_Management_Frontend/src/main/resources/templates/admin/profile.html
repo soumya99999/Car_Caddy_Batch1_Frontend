@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/contact.css">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/Hero.css}">
+    <link rel="stylesheet" th:href="@{/css/Card-car.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <style>
+        .profile-section {
+            background-color: #f8f9fa;
+            padding: 40px 0;
+        }
+
+        .card {
+            border-radius: 12px;
+        }
+
+        .card img {
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img th:src="@{/images/logo.png}" alt="Car Management Logo">
+        </div>
+        <ul class="nav-links">
+            <li><a th:href="@{/admin/home}">Home</a></li>
+            <li><a th:href="@{/admin/profile}" class="home-link">My Profile</a></li>
+        </ul>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <section class="profile-section">
+        <div class="container mt-5">
+            <h2 class="text-center mb-4">My Profile</h2>
+            <div class="card shadow p-4">
+                <div class="row">
+                    <div class="col-md-4 text-center">
+                        <img th:src="@{/images/user-solid.svg}" alt="Profile Picture" class="img-fluid rounded-circle mb-3" style="width: 70%;">
+                    </div>
+                    <div class="col-md-8">
+                        <h3 th:text="${employee.fullName}"></h3>
+                        <p><strong>Email:</strong> <span th:text="${employee.emailId}"></span></p>
+                        <p><strong>Phone:</strong> <span th:text="${employee.contactNumber}"></span></p>
+                        <p><strong>Date of Birth:</strong> <span th:text="${employee.dob}"></span></p>
+                        <p><strong>Account Type:</strong> <span th:text="${employee.accountType}"></span></p>
+                        <p><strong>Expiry Date:</strong> <span th:text="${employee.expiryDate}"></span></p>
+                        <div class="mt-4">
+                            <a th:href="@{/admin/update}" class="btn btn-primary me-3">Update Profile</a>
+                            <a th:href="@{/admin/logout}" class="btn btn-danger">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <footer>
+            <div class="footer-container">
+                <div class="footer-section">
+                    <h3>CarCaddy</h3>
+                    <p>Your ultimate car companion, ensuring hassle-free car management and maintenance.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+            <li><a th:href="@{/admin/home}" class="home-link">Home</a></li>
+            <li><a th:href="@{/car-management/home}">Car Management</a></li>
+            <li><a th:href="@{/employee-management/home}">Employee Management</a></li>
+            <li><a th:href="@{/rental-management/home}">Rental Management</a></li>
+            <li><a th:href="@{/customer-management/home}">Customer Management</a></li>
+            <li><a th:href="@{/maintenance-management/home}">Maintenance Management</a></li>
+          </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <p>Email: support@carcaddy.com</p>
+                    <p>Phone: +1-800-123-4567</p>
+                    <p>Address: 123 CarCaddy St, AutoCity, USA</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Car Management System. All rights reserved.</p>
+            <ul class="social-links">
+                <li><a href="https://facebook.com" target="_blank">
+                    <img th:src="@{/images/facebook-icon.png}" alt="Facebook">
+                </a></li>
+                <li><a href="https://twitter.com" target="_blank">
+                    <img th:src="@{/images/twitter-icon.png}" alt="Twitter">
+                </a></li>
+                <li><a href="https://instagram.com" target="_blank">
+                    <img th:src="@{/images/instagram-icon.png}" alt="Instagram">
+                </a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script src="/JS/navbar.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

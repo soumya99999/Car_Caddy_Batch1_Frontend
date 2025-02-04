@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Employee</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('https://static.vecteezy.com/system/resources/thumbnails/019/897/367/small_2x/businessman-stands-in-front-of-a-virtual-hierarchy-diagram-in-a-company-search-for-talented-employees-photo.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            overflow: hidden;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            width: 400px;
+            animation: slideIn 1s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+            letter-spacing: 1px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        label {
+            font-size: 14px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        input:focus, select:focus {
+            border: 1px solid #007BFF;
+            outline: none;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+        }
+
+        button {
+            background: linear-gradient(90deg, #007BFF, #00C6FF);
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(90deg, #0056B3, #0091C3);
+            transform: translateY(-3px);
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: -10px;
+            display: none;
+        }
+
+        .error-message.visible {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(100px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #expiryDateField {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Register Employee</h1>
+        <form th:action="@{/admin/register}" method="post" th:object="${employee}">
+            <!-- Full Name -->
+            <label for="fullName">Full Name:</label>
+            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" 
+                th:value="${employee.fullName}">
+				 <div th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" style="color:red"></div>
+            
+            <!-- Contact Number -->
+            <label for="contactNumber">Contact Number:</label>
+            <input type="text" id="contactNumber" name="contactNumber" placeholder="Enter contact number" 
+                th:value="${employee.contactNumber}" >
+				<div th:if="${#fields.hasErrors('contactNumber')}" th:errors="*{contactNumber}" style="color:red"></div>
+
+            <!-- Date of Birth -->
+            <label for="dob">Date of Birth:</label>
+            <input type="date" id="dob" name="dob" th:value="${employee.dob}">
+			<div th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}" style="color:red"></div>
+
+            <!-- Account Type -->
+            <label for="accountType">Account Type:</label>
+            <select id="accountType" name="accountType" onchange="toggleExpiryDateField()" >
+                <option value="Permanent" th:selected="${employee.accountType == 'Permanent'}">Permanent</option>
+                <option value="Temporary" th:selected="${employee.accountType == 'Temporary'}">Temporary</option>
+            </select>
+
+            <!-- Exit Date -->
+            <div id="expiryDateField">
+                <label for="expiryDate">Exit Date:</label>
+                <input type="date" id="expiryDate" name="expiryDate" th:value="${employee.expiryDate}">
+            </div>
+			<div th:if="${#fields.hasErrors('expiryDate')}" th:errors="*{expiryDate}" style="color:red"></div>
+
+            <!-- Email ID -->
+            <label for="emailId">Email ID:</label>
+            <input type="email" id="emailId" name="emailId" placeholder="Enter your email ID" 
+                th:value="${employee.emailId}" >
+				<div th:if="${#fields.hasErrors('emailId')}" th:errors="*{emailId}" style="color:red"></div>
+
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <script>
+        function toggleExpiryDateField() {
+            const accountType = document.getElementById("accountType").value;
+            const expiryDateField = document.getElementById("expiryDateField");
+            expiryDateField.style.display = accountType === "Temporary" ? "block" : "none";
+        }
+
+        // Initialize visibility on page load if editing existing data
+        window.onload = function() {
+            toggleExpiryDateField();
+        };
+    </script>
+</body>
+</html>
