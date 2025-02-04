@@ -104,10 +104,31 @@
         .filters button:hover {
             background: #2980b9;
         }
+
+        .add-employee-btn {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .add-employee-btn:hover {
+            background-color: #2980b9;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Add Employee Button -->
+        <a href="/admin/register">
+            <button class="add-employee-btn">Add Employee</button>
+        </a>
+        
         <h1>Employee List</h1>
         
         <!-- Filters Section -->
@@ -166,50 +187,49 @@
     </div>
 
     <script>
- function applyFilters() {
-    const accountTypeFilter = document.getElementById('accountTypeFilter').value;
-    const expiryDateSort = document.getElementById('expiryDateSort').value;
-    const rows = document.querySelectorAll('#employeeTableBody tr');
+        function applyFilters() {
+            const accountTypeFilter = document.getElementById('accountTypeFilter').value;
+            const expiryDateSort = document.getElementById('expiryDateSort').value;
+            const rows = document.querySelectorAll('#employeeTableBody tr');
 
-    // Filter by Account Type
-    rows.forEach(row => {
-        const accountType = row.querySelector('td:nth-child(6)').textContent.toLowerCase();
-        if (accountTypeFilter === 'all' || accountType === accountTypeFilter) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
-    });
+            // Filter by Account Type
+            rows.forEach(row => {
+                const accountType = row.querySelector('td:nth-child(6)').textContent.toLowerCase();
+                if (accountTypeFilter === 'all' || accountType === accountTypeFilter) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
 
-    // Sort by Expiry Date (for Temporary Employees only)
-    if (expiryDateSort !== 'none') {
-        const temporaryRows = Array.from(rows).filter(row => {
-            const accountType = row.querySelector('td:nth-child(6)').textContent.toLowerCase();
-            return accountType === 'temporary' && row.style.display !== 'none';
-        });
+            // Sort by Expiry Date (for Temporary Employees only)
+            if (expiryDateSort !== 'none') {
+                const temporaryRows = Array.from(rows).filter(row => {
+                    const accountType = row.querySelector('td:nth-child(6)').textContent.toLowerCase();
+                    return accountType === 'temporary' && row.style.display !== 'none';
+                });
 
-        // Sort the filtered rows
-        const sortedRows = temporaryRows.sort((a, b) => {
-            const dateA = new Date(a.querySelector('td:nth-child(7)').textContent);
-            const dateB = new Date(b.querySelector('td:nth-child(7)').textContent);
-            return expiryDateSort === 'asc' ? dateA - dateB : dateB - dateA;
-        });
+                // Sort the filtered rows
+                const sortedRows = temporaryRows.sort((a, b) => {
+                    const dateA = new Date(a.querySelector('td:nth-child(7)').textContent);
+                    const dateB = new Date(b.querySelector('td:nth-child(7)').textContent);
+                    return expiryDateSort === 'asc' ? dateA - dateB : dateB - dateA;
+                });
 
-        // Hide permanent employees if sorting is applied
-        rows.forEach(row => {
-            const accountType = row.querySelector('td:nth-child(6)').textContent.toLowerCase();
-            if (accountType === 'permanent') {
-                row.style.display = 'none';
+                // Hide permanent employees if sorting is applied
+                rows.forEach(row => {
+                    const accountType = row.querySelector('td:nth-child(6)').textContent.toLowerCase();
+                    if (accountType === 'permanent') {
+                        row.style.display = 'none';
+                    }
+                });
+
+                // Re-append sorted rows for temporary employees
+                const tableBody = document.getElementById('employeeTableBody');
+                tableBody.innerHTML = '';
+                sortedRows.forEach(row => tableBody.appendChild(row));
             }
-        });
-
-        // Re-append sorted rows for temporary employees
-        const tableBody = document.getElementById('employeeTableBody');
-        tableBody.innerHTML = '';
-        sortedRows.forEach(row => tableBody.appendChild(row));
-    }
-}
-
+        }
     </script>
 </body>
 </html>
