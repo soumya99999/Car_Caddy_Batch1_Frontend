@@ -1,0 +1,182 @@
+/* Bookings & Reservations Management - Neuromorphic Style */
+.bookings-management {
+    text-align: center;
+    background: #f3e8ff; /* Soft lavender background */
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 10px 10px 20px rgba(160, 120, 200, 0.2), 
+                -10px -10px 20px rgba(255, 255, 255, 0.8);
+}
+
+/* Grid Layout for Booking Cards */
+.bookings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+    padding: 20px;
+}
+
+/* Booking Card - Soft Purple Neuromorphism */
+.booking-card {
+    background: #f3e8ff;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 8px 8px 16px rgba(160, 120, 200, 0.2), 
+                -8px -8px 16px rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+}
+
+/* Hover Effect - Lifting the Card */
+.booking-card:hover {
+    box-shadow: 12px 12px 24px rgba(140, 100, 190, 0.3), 
+                -12px -12px 24px rgba(255, 255, 255, 0.95);
+    transform: scale(1.03);
+}
+
+/* Heading Inside Cards */
+.booking-card h3 {
+    color: #5a189a; /* Darker purple for contrast */
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+/* Paragraph Inside Cards */
+.booking-card p {
+    color: #7b2cbf; /* Softer purple */
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+/* Button Styling */
+.booking-card button {
+    background: #e0c3fc;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 10px;
+    color: #4a148c;
+    transition: all 0.3s ease-in-out;
+    box-shadow: inset 4px 4px 8px rgba(140, 100, 190, 0.2), 
+                inset -4px -4px 8px rgba(255, 255, 255, 0.9);
+}
+
+/* Button Hover Effect */
+.booking-card button:hover {
+    background: #d8b4f8;
+    box-shadow: inset 2px 2px 4px rgba(140, 100, 190, 0.2), 
+                inset -2px -2px 4px rgba(255, 255, 255, 0.95);
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .bookings-grid {
+        grid-template-columns: 1fr; /* Single column on small screens */
+    }
+}
+
+/* Support & Feedback Section - Advanced Soft Purple Neuromorphism */
+.support-feedback {
+    text-align: center;
+    background: #f3e8ff; /* Soft lavender background */
+    border-radius: 20px;
+    padding: 40px;
+    margin-top: 40px;
+    box-shadow: 10px 10px 20px rgba(160, 120, 200, 0.2), 
+                -10px -10px 20px rgba(255, 255, 255, 0.8);
+}
+
+/* Grid Layout for Support Cards */
+.support-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+    padding: 20px;
+}
+
+/* Support Cards - Advanced Neuromorphic Design */
+.support-card {
+    background: #f3e8ff;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 8px 8px 16px rgba(160, 120, 200, 0.3), 
+                -8px -8px 16px rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hover Effect - Floating Effect */
+.support-card:hover {
+    box-shadow: 12px 12px 24px rgba(140, 100, 190, 0.3), 
+                -12px -12px 24px rgba(255, 255, 255, 0.95);
+    transform: scale(1.03);
+}
+
+/* Animated Border Glow */
+.support-card::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: radial-gradient(circle, rgba(160, 120, 200, 0.2) 10%, transparent 70%);
+    border-radius: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.support-card:hover::before {
+    opacity: 1;
+}
+
+/* Support Card Headings */
+.support-card h3 {
+    color: #5a189a; /* Dark purple for contrast */
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+/* Support Card Paragraph */
+.support-card p {
+    color: #7b2cbf; /* Softer purple */
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+/* Soft Neuromorphic Button */
+.support-card button {
+    background: #e0c3fc;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 10px;
+    color: #4a148c;
+    transition: all 0.3s ease-in-out;
+    box-shadow: inset 4px 4px 8px rgba(140, 100, 190, 0.2), 
+                inset -4px -4px 8px rgba(255, 255, 255, 0.9);
+}
+
+/* Button Hover Effect */
+.support-card button:hover {
+    background: #d8b4f8;
+    box-shadow: inset 2px 2px 4px rgba(140, 100, 190, 0.2), 
+                inset -2px -2px 4px rgba(255, 255, 255, 0.95);
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .support-grid {
+        grid-template-columns: 1fr; /* Single column on small screens */
+    }
+}

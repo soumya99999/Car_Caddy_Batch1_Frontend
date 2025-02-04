@@ -6,50 +6,9 @@
     <title>Car Management Home</title>
       <link rel="stylesheet" th:href="@{/css/navbar.css}">
     <link rel="stylesheet" th:href="@{/css/Hero.css}">
-    <link rel="stylesheet" th:href="@{/css/Card-car.css}">
+    <link rel="stylesheet" th:href="@{/css/adminHome.css}">
     <link rel="stylesheet" th:href="@{/css/footer.css}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
-    <style>
-    .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 20px auto;
-            width: 75%; /* Boxes occupy 75% of screen width */
-        }
-
-        /* Module Box Styles */
-        .module-box {
-            background-color: linear-gradient(135deg, #f0f8ff, #e6e6fa);
-            color: linear-gradient(135deg, #f0f8ff, #e6e6fa);
-            padding: 20px;
-            border-radius: 10px;
-            font-size: 1.2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
-            width: 100%; /* Full width of the container */
-            margin: 10px 0; /* Space between boxes */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .module-box:hover {
-            transform: scale(1.03);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-            background-color: #0056b3;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                width: 90%; /* Reduce container width on smaller screens */
-            }
-
-            .module-box {
-                font-size: 1rem; /* Adjust font size */
-            }
-        }</style>
-    
 </head>
 <body>
 	<div class="loader-container">
@@ -97,17 +56,23 @@
 	        </div>
 	    </div>
     <!-- Navbar -->
-    <nav class="navbar">
-        <div class="logo">
-            <img th:src="@{/images/logo.png}" alt="Car Management Logo">
-        </div>
-        <h1 style="margin-right:40%">CarCarddy Rental System</h1>
-        <div class="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </nav>
+	<nav class="navbar">
+	        <div class="logo">
+	            <img th:src="@{/images/logo.png}" alt="Car Management Logo">
+	        </div>
+	        <ul class="nav-links">
+	            <li><a th:href="@{/car-management/home}">Car Management</a></li>
+	            <li><a th:href="@{/car-register}">Employee Management</a></li>
+	            <li><a th:href="@{/update-car}">Rental Management</a></li>
+	            <li><a th:href="@{/filter}">Customer Management</a></li>
+				<li><a th:href="@{/filter}">Maintenance Management</a></li>
+	        </ul>
+	        <div class="hamburger">
+	            <span></span>
+	            <span></span>
+	            <span></span>
+	        </div>
+	    </nav>
 
     <div class="main-content">
         <!-- Hero Section -->
@@ -125,26 +90,56 @@
     </div>
     
     
+	<div class="bookings-management">
+	    <h2>Bookings & Reservations Management</h2>
+	    <div class="bookings-grid">
+	        <div class="booking-card">
+	            <h3>Upcoming Bookings</h3>
+	            <p>Manage all upcoming reservations, view details, and make changes.</p>
+	            <button>View Details</button>
+	        </div>
+	        <div class="booking-card">
+	            <h3>Active Rentals</h3>
+	            <p>Track currently active car rentals and monitor statuses.</p>
+	            <button>View Active Rentals</button>
+	        </div>
+	        <div class="booking-card">
+	            <h3>Past Reservations</h3>
+	            <p>Access history of completed reservations for reference.</p>
+	            <button>View History</button>
+	        </div>
+	        <div class="booking-card">
+	            <h3>Cancelations</h3>
+	            <p>Manage canceled bookings and process refunds if applicable.</p>
+	            <button>View Canceled Bookings</button>
+	        </div>
+	    </div>
+	</div>
+	
+	<!-- Support & Feedback Section -->
+	   <div class="support-feedback">
+	       <h2>Support & Feedback</h2>
+	       <div class="support-grid">
+	           <div class="support-card">
+	               <h3>Customer Inquiries</h3>
+	               <p>Manage customer questions and provide timely responses.</p>
+	               <button>View Inquiries</button>
+	           </div>
+	           <div class="support-card">
+	               <h3>Feedback & Reviews</h3>
+	               <p>Analyze customer feedback to improve services.</p>
+	               <button>View Feedback</button>
+	           </div>
+	           <div class="support-card">
+	               <h3>Support Tickets</h3>
+	               <p>Monitor and resolve customer issues effectively.</p>
+	               <button>Manage Tickets</button>
+	           </div>
+	       </div>
+	   </div>
+
     
-    
-    <!-- Main Content -->
-    <div class="container">
-        <a th:href="@{/car-management/home}" class="module-box">
-            Car Management
-        </a>
-        <a th:href="@{/employee-management/home}" class="module-box">
-            Employee Management
-        </a>
-        <a th:href="@{/rental-management/home}" class="module-box">
-            Rental Management
-        </a>
-        <a th:href="@{/customer-management/home}" class="module-box">
-            Customer Management
-        </a>
-        <a th:href="@{/maintenanace-management/home}" class="module-box">
-            Maintenance Management
-        </a>
-    </div>
+
 <!-- Footer -->  
 
    <section>
