@@ -1,5 +1,9 @@
 package com.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.model.Car;
 
 import com.model.Customer;
@@ -22,6 +26,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @Controller
@@ -33,23 +38,23 @@ public class RentalController {
     private static final String BASE_URL = "http://localhost:8000/rentals"; // Adjust base URL for your backend service
 
     // Home Page
-    @GetMapping("////")
+    @GetMapping("/rental-management/home")
     public String getHomePage() {
-        return "home5"; 
+        return "admin/rental-management/home5"; 
     }
 
     // View All Rentals
-    @GetMapping("//all")
+    @GetMapping("/rentals/all")
     public String viewAllBookings(Model model) {
-        try {
+        try { 
             ResponseEntity<List> response = restTemplate.exchange(
-                BASE_URL + "/all",
+                BASE_URL + "/viewAllBookings",
                 HttpMethod.GET,
                 null,
                 List.class
             );
             model.addAttribute("rentals", response.getBody());
-            return "all_rentals5"; 
+            return "admin/rental-management/all_rentals5"; 
         } catch (HttpClientErrorException e) {
             model.addAttribute("errorMessage", "Error retrieving rentals: " + e.getMessage());
             return "error"; 
@@ -57,40 +62,17 @@ public class RentalController {
     }
 
     // Show the booking form
-    @GetMapping("/book")
-    public String showBookingForm(@RequestParam("carId") Long carId, 
-                                  @RequestParam("customerId") Long customerId, 
-                                  Model model) {
+    @GetMapping("/rentals/book")
+    public String showBookingForm(Model model) {
 
         Rental rental = new Rental();
-        Car car = new Car();
-        car.setCarId(carId);
-        Customer customer = new Customer();
-        customer.setId(customerId);
-        rental.setCar(car);
-        rental.setCustomer(customer);
-
-
-        String employeeApiUrl = "http://localhost:8000/api/employees/employees";
-
-
-        ResponseEntity<Employee[]> response = restTemplate.getForEntity(employeeApiUrl, Employee[].class);
-        Employee[] employees = response.getBody();
-
-        if (employees != null && employees.length > 0) {
-            Random random = new Random();
-            Employee randomEmployee = employees[random.nextInt(employees.length)];
-            rental.setEmployee(randomEmployee);
-        } else {
-            System.out.println("No employees available");
-        }
-
+   
         model.addAttribute("rentalRequest", rental);
-        return "user/book5"; 
+        return "admin/rental-management/book5"; 
     }
 
     // Handle car booking
-    @PostMapping("/book")
+    @PostMapping("/admin/book")
     public String createBooking(@ModelAttribute Rental rentalRequest,BindingResult result, Model model) {
         try {
             Long carId = rentalRequest.getCar().getCarId();
@@ -98,7 +80,7 @@ public class RentalController {
 
             // Fetch Car rental rate
             ResponseEntity<BigDecimal> rentalRateResponse = restTemplate.exchange(
-                BASE_URL + "/getRentalRate/" + carId,
+                 "http://localhost:8000/getRentalRate/" + carId,
                 HttpMethod.GET,
                 null,
                 BigDecimal.class
@@ -106,13 +88,13 @@ public class RentalController {
 
             if (!rentalRateResponse.getStatusCode().is2xxSuccessful() || rentalRateResponse.getBody() == null) {
                 model.addAttribute("error", "Rental rate not found for car ID: " + carId);
-                return "user/book5"; // Redirect to an error page
+                return "admin/rental-management/book5"; // Redirect to an error page
             }
             BigDecimal rentalRate = rentalRateResponse.getBody();
 
             // Fetch Customer's loyalty points
             ResponseEntity<Integer> loyaltyPointsResponse = restTemplate.exchange(
-                BASE_URL + "/getLoyaltyPoints/" + customerId,
+                 "http://localhost:8000/getLoyaltyPoints/" + customerId,
                 HttpMethod.GET,
                 null,
                 Integer.class
@@ -126,7 +108,7 @@ public class RentalController {
             LocalDate endDate = rentalRequest.getEndDate();
             if (startDate == null || endDate == null || !endDate.isAfter(startDate)) {
                 model.addAttribute("error", "Invalid rental dates.");
-                return "user/book5";
+                return "admin/rental-management/book5";
             }
 
             // Calculate rental fare
@@ -152,14 +134,7 @@ public class RentalController {
             rentalRequest.setDiscount(discountAmount.floatValue());
             rentalRequest.setBookingStatus("Pending");
 
-            // Increment and update loyalty points
-            int updatedLoyaltyPoints = loyaltyPoints + 1;
-            restTemplate.exchange(
-                BASE_URL + "/updateLoyaltyPoints/" + customerId + "/" + updatedLoyaltyPoints,
-                HttpMethod.PUT,
-                null,
-                Customer.class
-            );
+         
 
             // Save rental booking
            
@@ -168,11 +143,83 @@ public class RentalController {
             model.addAttribute("rentalRequest", rentalRequest);
            
 
-            return "user/bookingConfirmation"; // Redirect to the booking confirmation page
+            return "admin/rental-management/bookingConfirmation"; // Redirect to the booking confirmation page
 
         } catch (Exception e) {
             model.addAttribute("error", "Error processing booking: " + e.getMessage());
-            return "user/book5"; // Redirect to the error page
+            return "admin/rental-management/book5"; // Redirect to the error page
+        }
+    }
+    
+    
+    @PostMapping("/admin/bookCar")
+    public String confirmBooking(@ModelAttribute Rental rentalRequest, BindingResult result, Model model) {
+        try {
+            Long customerId = rentalRequest.getCustomer().getId();
+
+            // Fetch Customer's loyalty points
+            ResponseEntity<Integer> loyaltyPointsResponse = restTemplate.exchange(
+                "http://localhost:8000/getLoyaltyPoints/" + customerId,
+                HttpMethod.GET,
+                null,
+                Integer.class
+            );
+
+            int loyaltyPoints = (loyaltyPointsResponse.getStatusCode().is2xxSuccessful() && loyaltyPointsResponse.getBody() != null)
+                                ? loyaltyPointsResponse.getBody()
+                                : 0;
+
+            rentalRequest.setBookingStatus("Completed");
+
+            // Increment and update loyalty points
+           
+
+            // Save rental request to backend service
+            ResponseEntity<Rental> bookingResponse = restTemplate.postForEntity(
+                "http://localhost:8000/rentals/bookCar",
+                rentalRequest,
+                Rental.class
+            );
+
+            if (bookingResponse.getStatusCode().is2xxSuccessful()) {
+                model.addAttribute("message", "Booking Successful!");
+            } else {
+                model.addAttribute("message", "Booking Unsuccessful. Please try again.");
+                return "admin/rental-management/bookingStatus";
+            }
+            
+            
+            int updatedLoyaltyPoints = loyaltyPoints + 1;
+            restTemplate.exchange(
+                "http://localhost:8000/updateLoyaltyPoints/" + customerId + "/" + updatedLoyaltyPoints,
+                HttpMethod.PUT,
+                null,
+                Customer.class
+            );
+
+            return "admin/rental-management/bookingStatus"; // Redirect to booking status page
+
+        } catch (HttpClientErrorException e) {
+        	 Map<String, String> errors=null;
+				try {
+					errors = new ObjectMapper().readValue(
+					    e.getResponseBodyAsString(), new TypeReference<Map<String, String>>() {});
+				} catch (JsonMappingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (JsonProcessingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+//			
+		
+			// Map backend errors to BindingResult				
+			for(Map.Entry<String, String> entryset : errors.entrySet()) {
+				String field = entryset.getKey();
+				String errorMsg = entryset.getValue();							
+				result.rejectValue(field,"",errorMsg);
+			}
+            return "admin/rental-management/bookingConfirmation"; // Redirect to booking status page with error message
         }
     }
 
@@ -181,14 +228,14 @@ public class RentalController {
 
 
     // Show the modify booking form
-    @GetMapping("/modify")
+    @GetMapping("/rentals/modify")
     public String showModifyForm(Model model) {
         model.addAttribute("modifyRentalRequest", new Rental());
-        return "modify5";  
+        return "admin/rental-management/modify5";  
     }
 
     // Handle booking modification
-    @PostMapping("/modify")
+    @PostMapping("/rentals/modify")
     public String modifyBooking(@ModelAttribute Rental modifyRentalRequest, BindingResult result, Model model) {
         try {
             HttpHeaders headers = new HttpHeaders();
@@ -197,7 +244,7 @@ public class RentalController {
             HttpEntity<Rental> request = new HttpEntity<>(modifyRentalRequest, headers);
 
             restTemplate.exchange(
-                BASE_URL + "/modify", 
+                BASE_URL + "/updateBooking/" + modifyRentalRequest.getBookingId() , 
                 HttpMethod.POST,
                 request,
                 Void.class
@@ -206,32 +253,32 @@ public class RentalController {
             return "modify5";  
         } catch (HttpClientErrorException e) {
             model.addAttribute("errorMessage", "Modification failed: " + e.getMessage());
-            return "modify5"; 
+            return "admin/rental-management/modify5"; 
         }
     }
 
     // Show the cancel booking form
-    @GetMapping("/cancel")
+    @GetMapping("/rentals/cancel")
     public String showCancelForm(Model model) {
         model.addAttribute("bookingId", new String());
-        return "cancel5"; 
+        return "admin/rental-management/cancel5"; 
     }
 
     // Handle booking cancellation
-    @PostMapping("/cancel")
+    @PostMapping("/rentals/cancel")
     public String cancelBooking(@RequestParam int bookingId, Model model) {
         try {
             restTemplate.exchange(
-                BASE_URL + "/cancel?bookingId=" + bookingId,
+                BASE_URL + "/cancelBooking/" + bookingId,
                 HttpMethod.POST,
                 null,
                 Void.class
             );
             model.addAttribute("successMessage", "Booking canceled successfully!");
-            return "cancel5"; 
+            return "redirect:/rentals/all"; 
         } catch (HttpClientErrorException e) {
             model.addAttribute("errorMessage", "Cancellation failed: " + e.getMessage());
-            return "cancel5"; 
+            return "admin/rental-management/cancel5"; 
         }
     }
 
@@ -239,7 +286,7 @@ public class RentalController {
     @GetMapping("/return")
     public String showReturnForm(Model model) {
         model.addAttribute("bookingId", new String());
-        return "return5";  
+        return "admin/rental-management/cancel5";  
     }
 
     // Handle return acknowledgment

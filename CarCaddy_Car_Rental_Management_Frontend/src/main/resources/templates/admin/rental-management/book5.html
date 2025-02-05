@@ -15,7 +15,7 @@
         
         <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
             <!-- Form for Booking -->
-            <form th:action="@{/bookCar}" method="post" th:object="${rentalRequest}">
+            <form th:action="@{/admin/book}" method="post" th:object="${rentalRequest}">
                 <!-- Customer ID -->
                 <div th:if="${#fields.hasErrors('customer')}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
                     <strong class="font-bold">Error!</strong>
@@ -24,7 +24,7 @@
                 <div class="mb-4">
                     <label for="customer" class="block text-gray-700 text-sm font-bold mb-2">Customer ID:</label>
                     <input type="number" id="customer" th:field="*{customer.id}" required
-                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly>
+                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
                 </div>
 
                 <!-- Car ID -->
@@ -35,7 +35,7 @@
                 <div class="mb-4">
                     <label for="car" class="block text-gray-700 text-sm font-bold mb-2">Car ID:</label>
                     <input type="number" id="car" th:field="*{car.carId}" required
-                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly>
+                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
                 </div>
 
                 <!-- Employee ID -->
@@ -46,7 +46,7 @@
                 <div class="mb-4">
                     <label for="employee" class="block text-gray-700 text-sm font-bold mb-2">Employee ID:</label>
                     <input type="number" id="employee" th:field="*{employee.employeeId}" required
-                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly>
+                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
                 </div>
 
                 <!-- Start Date -->
@@ -57,7 +57,7 @@
                 <div class="mb-4">
                     <label for="startDate" class="block text-gray-700 text-sm font-bold mb-2">Start Date:</label>
                     <input type="date" id="startDate" th:field="*{startDate}" required
-                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly>
+                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
 
                 <!-- End Date -->
@@ -68,50 +68,31 @@
                 <div class="mb-4">
                     <label for="endDate" class="block text-gray-700 text-sm font-bold mb-2">End Date:</label>
                     <input type="date" id="endDate" th:field="*{endDate}" required
-                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly>
+                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
 
                 <!-- Pickup Location -->
                 <div class="mb-4">
                     <label for="pickupLocation" class="block text-gray-700 text-sm font-bold mb-2">Pickup Location:</label>
                     <input type="text" id="pickupLocation" th:field="*{pickupLocation}" required
-                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly>
+                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
 
                 <!-- Drop Location -->
                 <div class="mb-4">
                     <label for="dropLocation" class="block text-gray-700 text-sm font-bold mb-2">Drop Location:</label>
                     <input type="text" id="dropLocation" th:field="*{dropLocation}" required
-                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly>
+                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
 
                 <!-- Discount -->
-                <div class="mb-6">
-                    <label for="discount" class="block text-gray-700 text-sm font-bold mb-2">Discount:</label>
-                    <input type="number" step="0.01" id="discount" th:field="*{discount}" required max="99"
-                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly>
-                </div>
-                
-                <div class="mb-4">
-                    <label for="fare" class="block text-gray-700 text-sm font-bold mb-2">Fare:</label>
-                    <input type="number" step="0.01"  id="fare" th:field="*{fare}" required
-                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly>
-                </div>
-                
-           
-                <div class="mb-4">
-                    <label for="bookingStatus" class="block text-gray-700 text-sm font-bold mb-2">Booking Status:</label>
-                    <input type="text" id="bookingStatus" th:field="*{bookingStatus}" required
-                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" readonly>
-                </div>
                
-                
 
                 <!-- Submit Button -->
                 <div class="flex items-center justify-between">
                     <button type="submit"
                             class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300">
-                        Confirm
+                        Book Car
                     </button>
                 </div>
             </form>

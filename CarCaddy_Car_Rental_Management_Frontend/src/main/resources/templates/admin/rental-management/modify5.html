@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Car Rental - Modify Booking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-sans flex flex-col min-h-screen bg-gray-100">
+
+    <div th:insert="~{navbar5}"></div>
+
+    <main class="container mx-auto px-4 py-8 flex-grow mt-8 flex justify-center items-center">
+        <div class="bg-white rounded-lg shadow-md p-6 w-full md:w-2/3 lg:w-1/2">
+            <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">Modify Booking</h1>
+
+            <form th:action="@{/rentals/modify}" method="post" th:object="${modifyRentalRequest}">
+
+                <div th:if="${#fields.hasErrors('bookingId')}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <strong class="font-bold">Error!</strong>
+                    <span class="block sm:inline" th:text="${#fields.getFieldError('bookingId').defaultMessage}"></span>
+                </div>
+                <div class="mb-4">
+                    <label for="bookingId" class="block text-gray-700 text-sm font-bold mb-2">Booking ID:</label>
+                    <input type="text" id="bookingId" th:field="*{bookingId}" required
+                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+
+                <div th:if="${#fields.hasErrors('carId')}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <strong class="font-bold">Error!</strong>
+                    <span class="block sm:inline" th:text="${#fields.getFieldError('carId').defaultMessage}"></span>
+                </div>
+                <div class="mb-4">
+                    <label for="carId" class="block text-gray-700 text-sm font-bold mb-2">New Car ID:</label>
+                    <input type="number" id="carId" th:field="*{carId}" required
+                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+
+                <div th:if="${#fields.hasErrors('newStartDate')}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <strong class="font-bold">Error!</strong>
+                    <span class="block sm:inline" th:text="${#fields.getFieldError('newStartDate').defaultMessage}"></span>
+                </div>
+                <div class="mb-4">
+                    <label for="newStartDate" class="block text-gray-700 text-sm font-bold mb-2">New Start Date:</label>
+                    <input type="date" id="newStartDate" th:field="*{newStartDate}" required
+                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+
+                <div th:if="${#fields.hasErrors('newEndDate')}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <strong class="font-bold">Error!</strong>
+                    <span class="block sm:inline" th:text="${#fields.getFieldError('newEndDate').defaultMessage}"></span>
+                </div>
+                <div class="mb-6">
+                    <label for="newEndDate" class="block text-gray-700 text-sm font-bold mb-2">New End Date:</label>
+                    <input type="date" id="newEndDate" th:field="*{newEndDate}" required
+                           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        Modify Booking
+                    </button>
+                </div>
+            </form>
+
+            <p th:if="${message}" class="mt-4 text-green-500 font-bold">[[${message}]]</p>
+            <p th:if="${error}" class="mt-4 text-red-500 font-bold">[[${error}]]</p>
+
+        </div>
+    </main>
+
+    <div th:insert="~{footer5}"></div>
+
+</body>
+</html>

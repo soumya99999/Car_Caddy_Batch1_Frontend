@@ -15,7 +15,7 @@
         
         <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
             <!-- Form for Booking -->
-            <form th:action="@{/bookCar}" method="post" th:object="${rentalRequest}">
+            <form th:action="@{/admin/bookCar}" method="post" th:object="${rentalRequest}">
                 <!-- Customer ID -->
                 <div th:if="${#fields.hasErrors('customer')}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
                     <strong class="font-bold">Error!</strong>

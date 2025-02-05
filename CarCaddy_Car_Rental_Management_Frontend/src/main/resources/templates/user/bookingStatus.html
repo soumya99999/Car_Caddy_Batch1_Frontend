@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .container {
+            width: 50%;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px #aaa;
+        }
+        h2 {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+        .home-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .home-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Show success or error message dynamically -->
+        <h2 th:if="${message == 'Booking Successful!'}" th:text="${message}" class="success"></h2>
+        <h2 th:if="${message != 'Booking Successful!'}" th:text="${message}" class="error"></h2>
+
+        <!-- Button to navigate to home page -->
+        <a th:href="@{/bookings}" class="home-button">Show Bookings</a>
+    </div>
+
+</body>
+</html>

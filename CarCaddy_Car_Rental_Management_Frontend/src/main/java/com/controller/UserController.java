@@ -1,7 +1,12 @@
 package com.controller;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -21,9 +26,12 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.model.Car;
 import com.model.Customer;
+import com.model.Employee;
+import com.model.Rental;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -82,13 +90,31 @@ public class UserController {
     
     @GetMapping("/bookings")
     public String showBookingsPage(Model model, HttpSession session) {
-    	Customer loggedInUser = (Customer) session.getAttribute("loggedInUser");
-    	if(loggedInUser == null) {
-    		return "redirect:/user/login";
-    	}
-        return "user/bookings"; 
+        Customer loggedInUser = (Customer) session.getAttribute("loggedInUser");
 
+        if (loggedInUser == null) {
+            return "redirect:/user/login";
+        }
+
+        try {
+            // Retrieve updated customer details from backend
+            ResponseEntity<Customer> response = restTemplate.getForEntity(
+            		"http://localhost:8000/getCustomerById/" + loggedInUser.getId(), Customer.class);
+            
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                // Update session with the latest customer details
+                session.setAttribute("loggedInUser", response.getBody());
+                model.addAttribute("loggedInUser", response.getBody());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();  // Log error if backend request fails
+            return "redirect:/user/login";  // Redirect to error page if needed
+        }
+
+        return "user/bookings";
     }
+
     
     @GetMapping("/profile")
     public String showProfile(Model model, HttpSession session) {
@@ -297,6 +323,195 @@ public class UserController {
 
         return "user/filter"; // Stay on the search page with the error message
 
+    }
+    
+    
+ 
+
+    // Show the booking form
+    @GetMapping("/book")
+    public String showBookingForm(@RequestParam("carId") Long carId, 
+                                  @RequestParam("customerId") Long customerId, 
+                                  Model model) {
+
+        Rental rental = new Rental();
+        Car car = new Car();
+        car.setCarId(carId);
+        Customer customer = new Customer();
+        customer.setId(customerId);
+        rental.setCar(car);
+        rental.setCustomer(customer);
+
+
+        String employeeApiUrl = "http://localhost:8000/api/employees/employees";
+
+
+        ResponseEntity<Employee[]> response = restTemplate.getForEntity(employeeApiUrl, Employee[].class);
+        Employee[] employees = response.getBody();
+
+        if (employees != null && employees.length > 0) {
+            Random random = new Random();
+            Employee randomEmployee = employees[random.nextInt(employees.length)];
+            rental.setEmployee(randomEmployee);
+        } else {
+            System.out.println("No employees available");
+        }
+
+        model.addAttribute("rentalRequest", rental);
+        return "user/book5"; 
+    }
+
+    // Handle car booking
+    @PostMapping("/book")
+    public String createBooking(@ModelAttribute Rental rentalRequest,BindingResult result, Model model) {
+        try {
+            Long carId = rentalRequest.getCar().getCarId();
+            Long customerId = rentalRequest.getCustomer().getId();
+
+            // Fetch Car rental rate
+            ResponseEntity<BigDecimal> rentalRateResponse = restTemplate.exchange(
+                 "http://localhost:8000/getRentalRate/" + carId,
+                HttpMethod.GET,
+                null,
+                BigDecimal.class
+            );
+
+            if (!rentalRateResponse.getStatusCode().is2xxSuccessful() || rentalRateResponse.getBody() == null) {
+                model.addAttribute("error", "Rental rate not found for car ID: " + carId);
+                return "user/book5"; // Redirect to an error page
+            }
+            BigDecimal rentalRate = rentalRateResponse.getBody();
+
+            // Fetch Customer's loyalty points
+            ResponseEntity<Integer> loyaltyPointsResponse = restTemplate.exchange(
+                 "http://localhost:8000/getLoyaltyPoints/" + customerId,
+                HttpMethod.GET,
+                null,
+                Integer.class
+            );
+            int loyaltyPoints = (loyaltyPointsResponse.getStatusCode().is2xxSuccessful() && loyaltyPointsResponse.getBody() != null)
+                                ? loyaltyPointsResponse.getBody()
+                                : 0;
+
+            // Validate rental dates
+            LocalDate startDate = rentalRequest.getStartDate();
+            LocalDate endDate = rentalRequest.getEndDate();
+            if (startDate == null || endDate == null || !endDate.isAfter(startDate)) {
+                model.addAttribute("error", "Invalid rental dates.");
+                return "user/book5";
+            }
+
+            // Calculate rental fare
+            long rentalDays = ChronoUnit.DAYS.between(startDate, endDate);
+            BigDecimal fare = rentalRate.multiply(BigDecimal.valueOf(rentalDays));
+
+            // Determine discount based on loyalty points
+            float discountPercentage;
+            if (loyaltyPoints <= 5) {
+                discountPercentage = 2.0f;
+            } else if (loyaltyPoints <= 10) {
+                discountPercentage = 5.0f;
+            } else if (loyaltyPoints <= 20) {
+                discountPercentage = 10.0f;
+            } else {
+                discountPercentage = 15.0f;
+            }
+
+            // Apply discount
+            BigDecimal discountAmount = fare.multiply(BigDecimal.valueOf(discountPercentage / 100));
+            BigDecimal finalFare = fare.subtract(discountAmount);
+            rentalRequest.setFare(finalFare.floatValue());
+            rentalRequest.setDiscount(discountAmount.floatValue());
+            rentalRequest.setBookingStatus("Pending");
+
+         
+
+            // Save rental booking
+           
+
+            // Pass the booking details to the frontend
+            model.addAttribute("rentalRequest", rentalRequest);
+           
+
+            return "user/bookingConfirmation"; // Redirect to the booking confirmation page
+
+        } catch (Exception e) {
+            model.addAttribute("error", "Error processing booking: " + e.getMessage());
+            return "user/book5"; // Redirect to the error page
+        }
+    }
+    
+    
+    @PostMapping("/bookCar")
+    public String confirmBooking(@ModelAttribute Rental rentalRequest, BindingResult result, Model model) {
+        try {
+            Long customerId = rentalRequest.getCustomer().getId();
+
+            // Fetch Customer's loyalty points
+            ResponseEntity<Integer> loyaltyPointsResponse = restTemplate.exchange(
+                "http://localhost:8000/getLoyaltyPoints/" + customerId,
+                HttpMethod.GET,
+                null,
+                Integer.class
+            );
+
+            int loyaltyPoints = (loyaltyPointsResponse.getStatusCode().is2xxSuccessful() && loyaltyPointsResponse.getBody() != null)
+                                ? loyaltyPointsResponse.getBody()
+                                : 0;
+
+            rentalRequest.setBookingStatus("Completed");
+
+            
+            // Save rental request to backend service
+            ResponseEntity<Rental> bookingResponse = restTemplate.postForEntity(
+                "http://localhost:8000/rentals/bookCar",
+                rentalRequest,
+                Rental.class
+            );
+            
+            if (bookingResponse.getStatusCode().is2xxSuccessful()) {
+                model.addAttribute("message", "Booking Successful!");
+            } else {
+                model.addAttribute("message", "Booking Unsuccessful. Please try again.");
+                return "user/bookingStatus"; 
+            }
+            
+         // Increment and update loyalty points
+            int updatedLoyaltyPoints = loyaltyPoints + 1;
+            restTemplate.exchange(
+                "http://localhost:8000/updateLoyaltyPoints/" + customerId + "/" + updatedLoyaltyPoints,
+                HttpMethod.PUT,
+                null,
+                Customer.class
+            );
+
+
+           
+
+            return "user/bookingStatus"; // Redirect to booking status page
+
+        } catch (HttpClientErrorException e) {
+        	 Map<String, String> errors=null;
+				try {
+					errors = new ObjectMapper().readValue(
+					    e.getResponseBodyAsString(), new TypeReference<Map<String, String>>() {});
+				} catch (JsonMappingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (JsonProcessingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+//			
+		
+			// Map backend errors to BindingResult				
+			for(Map.Entry<String, String> entryset : errors.entrySet()) {
+				String field = entryset.getKey();
+				String errorMsg = entryset.getValue();							
+				result.rejectValue(field,"",errorMsg);
+			}
+            return "user/bookingConfirmation"; // Redirect to booking status page with error message
+        }
     }
 
     

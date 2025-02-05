@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>All Bookings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+   
+    <style>
+        .modal {
+            position: fixed;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 0.5rem;
+        }
+
+        .modal-close {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #ddd;
+            border: none;
+            cursor: pointer;
+            border-radius: 0.25rem;
+        }
+
+    </style>
+</head>
+<body class="font-sans flex flex-col min-h-screen">
+
+<div th:insert="~{navbar5}"></div>
+
+<main class="container mx-auto px-4 py-8 flex-grow">
+    <h1 class="text-2xl font-bold mb-4">All Car Rentals</h1>
+
+    <div th:if="${rentals.empty}">
+        <p>No rentals found.</p>
+    </div>
+
+    <table th:unless="${rentals.empty}" class="table-auto w-full text-left shadow-md">
+        <thead class="bg-gray-100">
+        <tr>
+            <th class="px-4 py-2">Booking ID</th>
+            <th class="px-4 py-2">Pickup</th>
+            <th class="px-4 py-2">Drop Location</th>
+            <th class="px-4 py-2">Start Date</th>
+            <th class="px-4 py-2">End Date</th>
+            <th class="px-4 py-2">Total Fare</th>
+            <th class="px-4 py-2">Status</th>
+            <th class="px-4 py-2">Car Id</th>
+            <th class="px-4 py-2">Customer Id</th>
+            <th class="px-4 py-2">Employee Id</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="rental : ${rentals}" class="border-b hover:bg-gray-50">
+            <td class="px-4 py-2" th:text="${rental.bookingId}"></td>
+            <td class="px-4 py-2" th:text="${rental.pickupLocation}"></td>
+            <td class="px-4 py-2" th:text="${rental.dropLocation}"></td>
+            <td class="px-4 py-2" th:text="${rental.startDate}"></td>
+            <td class="px-4 py-2" th:text="${rental.endDate}"></td>
+            <td class="px-4 py-2" th:text="${rental.fare}"></td>
+            <td class="px-4 py-2" th:text="${rental.bookingStatus}"></td>
+            <td class="px-4 py-2" th:text="${rental.car.carId}"></td>
+            <td class="px-4 py-2" th:text="${rental.customer.id}"></td>
+            <td class="px-4 py-2" th:text="${rental.employee.employeeId}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+   
+
+</main>
+
+<div th:insert="~{footer5}"></div>
+
+</body>
+</html>

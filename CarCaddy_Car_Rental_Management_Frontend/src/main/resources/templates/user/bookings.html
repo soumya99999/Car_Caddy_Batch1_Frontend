@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us</title>
+    <title>Bookings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <link rel="stylesheet" href="/css/contact.css">
     <link rel="stylesheet" th:href="@{/css/navbar.css}">
      <link rel="stylesheet" th:href="@{/css/Hero.css}">
@@ -32,6 +34,58 @@
             <span></span>
         </div>
     </nav>
+    
+    
+   <!-- Bookings Section -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4">My Bookings</h2>
+
+    <!-- If no bookings are found -->
+    <div th:if="${#lists.isEmpty(loggedInUser.rentals)}" class="text-center alert alert-info">
+        <p>No bookings found. <a th:href="@{/user/filter}" class="text-primary fw-bold">Find a Car</a> to book now!</p>
+    </div>
+
+    <!-- Loop through the user's bookings -->
+    <div class="row" th:each="rental : ${loggedInUser.rentals}">
+        <div class="col-md-8 offset-md-2">
+            <div class="card mb-4 shadow-lg rounded border-0">
+                <div class="card-body">
+                    <h5 class="card-title text-center fw-bold text-primary">Booking ID: <span th:text="${rental.bookingId}"></span></h5>
+                    <hr>
+
+                    <div class="row">
+                        <!-- Left Column -->
+                        <div class="col-md-6">
+                            <p class="card-text"><strong>Pickup:</strong> <span th:text="${rental.pickupLocation}"></span></p>
+                            <p class="card-text"><strong>Drop:</strong> <span th:text="${rental.dropLocation}"></span></p>
+                            <p class="card-text"><strong>Start Date:</strong> <span th:text="${rental.startDate}"></span></p>
+                            <p class="card-text"><strong>End Date:</strong> <span th:text="${rental.endDate}"></span></p>
+                            <p class="card-text"><strong>Employee Number:</strong> <span th:text="${rental.employee.contactNumber}"></span></p>
+                        </div>
+                        <!-- Right Column -->
+                        <div class="col-md-6">
+                        <p class="card-text"><strong>Total Fare:</strong> <span class="text-danger fw-bold">$<span th:text="${rental.discount + rental.fare}"></span></span></p>
+                            <p class="card-text"><strong>Discount:</strong> <span class="text-danger fw-bold">$<span th:text="${rental.discount}"></span></span></p>
+                             <p class="card-text"><strong>Fare To be Paid:</strong> <span class="text-success fw-bold">$<span th:text="${rental.fare}"></span></span></p>
+                             <p class="card-text"><strong>Car Id:</strong> <span th:text="${rental.car.carId}"></span></p>
+                            <p class="card-text"><strong>Status:</strong> 
+                                <span th:text="${rental.bookingStatus}" 
+                                      th:classappend="${rental.bookingStatus == 'Confirmed' ? 'text-success fw-bold' : 'text-danger fw-bold'}">
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+             
+                <!--     <div class="text-center">
+                        <button class="btn btn-outline-danger btn-sm" th:if="${rental.bookingStatus != 'Completed'}">Cancel Booking</button>
+                        <button class="btn btn-outline-primary btn-sm">View Details</button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
    
       <section>
