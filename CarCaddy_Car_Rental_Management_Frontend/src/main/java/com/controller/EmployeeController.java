@@ -117,10 +117,10 @@ public class EmployeeController {
 						errors = new ObjectMapper().readValue(
 						    e.getResponseBodyAsString(), new TypeReference<Map<String, String>>() {});
 					} catch (JsonMappingException e1) {
-						// TODO Auto-generated catch block
+						
 						e1.printStackTrace();
 					} catch (JsonProcessingException e1) {
-						// TODO Auto-generated catch block
+					
 						e1.printStackTrace();
 					}
 //				
