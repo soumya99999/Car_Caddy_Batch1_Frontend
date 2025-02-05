@@ -5,23 +5,41 @@
     <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
           name="viewport">
     <meta content="ie=edge" http-equiv="X-UA-Compatible">
-    <link rel="stylesheet" th:href="@{/style.css}">
+<!--    <link rel="stylesheet" th:href="@{/style.css}">-->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <title>carcaddy</title>
 </head>
 <body>
-<div class="navbar">
-    <div class="nav-container">
-
-        <ul class="nav-links">
-            <li><a th:href=@{/maintenance-management/home}>Home</a></li>
-            <li><a th:href="@{/maintenance/register}">Create Maintenance</a></li>
-            <li><a th:href="@{/maintenance/list}">List of Maintenance Records</a></li>
+<div class="flex h-18 justify-between bg-violet-500 text-xl font-semibold">
+<div class="w-20 h-12  ms-2">
+    <img class="-mt-3" src="/static/images/logo.png" alt="">
+</div>
+        <ul class="nav-links flex gap-6 me-2 ">
+            <li class="mb-4 mt-4 "><a class="hover:text-white hover:shadow-lg hover:underline " th:href=@{/maintenance-management/home}>Home</a></li>
+            <li class="mb-4 mt-4 "><a class="hover:text-white hover:shadow-lg hover:underline " th:href="@{/maintenance/register}">Create Maintenance</a></li>
+            <li class="mb-4 mt-4 "><a class="hover:text-white hover:shadow-lg hover:underline " th:href="@{/maintenance/list}">List of Maintenance Records</a></li>
         </ul>
-    </div>
+   
 </div>
-<div class="fullscreen-image">
-    <img src="https://themewagon.github.io/carserv/img/carousel-bg-1.jpg" alt="Full Screen Background">
-</div>
+<!--<div class="fullscreen-image">-->
+<!--    <img src="https://themewagon.github.io/carserv/img/carousel-bg-1.jpg" alt="Full Screen Background">-->
+<!--</div>-->
+<section class="w-full h-screen relative bg-gray-900 text-white py-24 px-8">
+    <!-- Background Image with Overlay -->
+    <div class="absolute inset-0 bg-cover bg-center opacity-40"
+         style="background-image: url('[[${imageUrl}]]');"></div>
 
+    <div class="container mx-auto text-center relative z-10">
+        <h1 class="text-5xl font-extrabold mb-4">
+            [[${title}]]
+        </h1>
+        <p class="text-xl mb-8">
+            [[${description}]]
+        </p>
+        <a href="#get-started" class="bg-yellow-500 text-white py-3 px-8 rounded-lg text-lg hover:bg-yellow-400 transition-all">
+            Get Started Now
+        </a>
+    </div>
+</section>
 </body> 
 </html>

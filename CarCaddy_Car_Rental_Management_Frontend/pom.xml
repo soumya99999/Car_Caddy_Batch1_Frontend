@@ -96,11 +96,19 @@
 			<scope>test</scope>
 		</dependency>
 	     
-	     <dependency>
+
+     
+    	<dependency>
     <groupId>com.fasterxml.jackson.datatype</groupId>
     <artifactId>jackson-datatype-jsr310</artifactId>
-    
-     </dependency>
+    <version>2.15.0</version>  <!-- Latest version check kar sakti ho -->
+</dependency>
+<dependency>
+    		<groupId>org.codehaus.jackson</groupId>
+    		<artifactId>jackson-mapper-asl</artifactId>
+    		<version>1.5.0</version>
+    		<scope>test</scope>
+		</dependency>
 
 
 

@@ -2,34 +2,40 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Edit Maintenance Record</title>
-    <link rel="stylesheet" th:href="@{/styles.css}">
+<!--    <link rel="stylesheet" th:href="@{/styles.css}">-->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 </head>
 <body>
 <header>
-    <h1>Edit Maintenance Record</h1>
+    <h1 class="text-center bg-violet-500 py-6 text-2xl font-semibold text-white">Edit Maintenance Record</h1>
 </header>
-<form method="post" th:action="@{/maintenance/edit/{id}(id=${maintenance.maintenanceId})}" th:object="${maintenance}">
-    <div>
-        <label for="car">Car ID:</label>
-        <input id="car" required th:field="*{car.carId}" type="number">
-    </div>
-    <div>
-        <label for="description">Maintenance Description:</label>
-        <textarea id="description" required th:field="*{description}"></textarea>
-    </div>
-    <div>
-        <label for="maintenanceType">Maintenance Type:</label>
-        <input id="maintenanceType" required th:field="*{maintenanceType}" type="text">
-    </div>
-    <div>
-        <label for="maintenanceCost">Maintenance Cost:</label>
-        <input id="maintenanceCost" required th:field="*{maintenanceCost}" type="number">
-    </div>
-    <div>
-        <label for="maintenanceStatus">Maintenance Status:</label>
-        <input id="maintenanceStatus" required th:field="*{maintenanceStatus}" type="text">
-    </div>
-    <button type="submit">Update</button>
-</form>
+<!--<h1>maintenance</h1>-->
+<div class="w-full h-screen py-3  flex justify-center items-center">
+    <form class="bg-white px-6 py-3 shadow-lg rounded-sm font-semibold font-arial" method="post" th:action="@{/maintenance/edit/{id}(id=${maintenance.maintenanceId})}" th:object="${maintenance}">
+        <div>
+            <label for="car">Car ID:</label>
+            <!-- Set the input to readonly so the user can't change the car ID -->
+            <input class="bg-violet-200 w-full h-8 rounded-lg text-black p-2 outline-none lookout" id="car" th:field="*{car.carId}" th:value="${maintenance.car.carId}" type="number" readonly />
+        </div>
+        <div>
+            <label for="description">Maintenance Description:</label>
+            <textarea class="bg-violet-200 w-full h-8 rounded-lg text-black p-2 outline-none lookout" id="description" required th:field="*{description}"></textarea>
+        </div>
+        <div>
+            <label for="maintenanceType">Maintenance Type:</label>
+            <input class="bg-violet-200 w-full h-8 rounded-lg text-black p-2 outline-none lookout" id="maintenanceType" required th:field="*{maintenanceType}" type="text">
+        </div>
+        <div>
+            <label for="maintenanceCost">Maintenance Cost:</label>
+            <input class="bg-violet-200 w-full h-8 rounded-lg text-black p-2 outline-none lookout" id="maintenanceCost" required th:field="*{maintenanceCost}" type="number">
+        </div>
+        <div>
+            <label for="maintenanceStatus">Maintenance Status:</label>
+            <input class="bg-violet-200 w-full h-8 rounded-lg text-black p-2 outline-none lookout" id="maintenanceStatus" required th:field="*{maintenanceStatus}" type="text">
+        </div>
+        <button class="mt-4 bg-blue-700 w-full py-2 rounded-lg text-white hover:bg-blue-500"  type="submit">Update</button>
+    </form>
+</div>
+
 </body>
 </html>

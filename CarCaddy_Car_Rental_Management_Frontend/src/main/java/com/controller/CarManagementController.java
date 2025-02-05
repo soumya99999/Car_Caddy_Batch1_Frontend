@@ -224,7 +224,7 @@ public class CarManagementController {
 	            Car fetchedCar = response.getBody();
 	            if (fetchedCar != null) {
 	                model.addAttribute("car", fetchedCar); // Add car details to the model
-	                return "car"; // Render car.html template
+	                return "admin/car-management/car"; // Render car.html template
 	            }
 	        } catch (HttpClientErrorException.NotFound e) {
 	            // Backend returns 404 when the car is not found
@@ -259,7 +259,7 @@ public class CarManagementController {
 	            if (fetchedCar != null) {
 	                model.addAttribute("car", fetchedCar); // Add car details to the model
 	                
-	                return "car"; // Render car.html template
+	                return "admin/car-management/car"; // Render car.html template
 	            }
 	        } catch (HttpClientErrorException.NotFound e) {
 	            // Backend returns 404 when the car is not found

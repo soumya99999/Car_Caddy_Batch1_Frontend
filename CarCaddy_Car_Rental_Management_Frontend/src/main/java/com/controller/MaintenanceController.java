@@ -1,8 +1,8 @@
 package com.controller;
 
-import com.model.Maintenance;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.model.Maintenance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,54 +18,65 @@ import java.util.List;
 @RequestMapping
 @Controller
 public class MaintenanceController {
+    @Autowired
+    private RestTemplate restTemplate;
 
-	@Autowired
-	private RestTemplate restTemplate;
-	
     @GetMapping("/maintenance-management/home")
-    public String index() {
+    public String index(Model model) {
+        model.addAttribute("imageUrl", "/images/black-car.png");
+        model.addAttribute("title", "Keep Your Car in Top Shape");
+        model.addAttribute("description", "Track your car’s maintenance schedule, get reminders, and ensure it stays in optimal condition.");
         return "admin/maintenance-management/index6";
     }
-
     @GetMapping("/maintenance/register")
     public String showMaintenanceForm(Model model) {
-        model.addAttribute("maintainance", new Maintenance());
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            String resp = restTemplate.getForObject("http://localhost:8000/cars/ids", String.class);
+            model.addAttribute("maintainance", new Maintenance());
+            List<Long> carIds = objectMapper.readValue(resp, new TypeReference<List<Long>>() {
+            });
+            System.out.println(carIds);
+            model.addAttribute("carIds", carIds);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "admin/maintenance-management/create-maintenance6";
     }
 
     @PostMapping("/maintenance/delete/{id}")
-    public String deleteRequest(@PathVariable Long id){
-        String url = "http://localhost:8000/maintenance/delete/"+id;
+    public String deleteRequest(@PathVariable Long id) {
+        String url = "http://localhost:8000/maintenance/delete/" + id;
 //        System.out.println(url);
         String response = restTemplate.getForObject(url, String.class);
-        System.out.println(response.toString());
+        System.out.println(response);
         return "redirect:/maintenance/list";
     }
 
     @PostMapping("/maintenance/edit/{id}")
-    public String updateRecord(@PathVariable Long id,@ModelAttribute("maintenance") Maintenance maintainance, Model model){
-        System.out.println("updated maintenance data : "+maintainance.toString());
+    public String updateRecord(@PathVariable Long id, @ModelAttribute("maintenance") Maintenance maintainance, Model model) {
+        System.out.println("updated maintenance data : " + maintainance.toString());
         boolean flag = false;
 //        if(maintainance.getCarId()<0){
 //            flag = true;
 //            model.addAttribute("carIdError","Car Id must be positive number");
 //        }
-        if(maintainance.getDescription().length()>=255){
+        if (maintainance.getDescription().length() >= 255) {
             flag = true;
-            model.addAttribute("DescriptionError","Description cannot exceed 255 characte.");
+            model.addAttribute("DescriptionError", "Description cannot exceed 255 characte.");
         }
-        if(maintainance.getMaintenanceStatus().length()<3||maintainance.getMaintenanceStatus().length()>50){
+        if (maintainance.getMaintenanceStatus().length() < 3 || maintainance.getMaintenanceStatus().length() > 50) {
             flag = true;
-            model.addAttribute("statusError","Maintenance status must be between 3 and 50 characters..");
+            model.addAttribute("statusError", "Maintenance status must be between 3 and 50 characters..");
         }
-        if(maintainance.getMaintenanceType().length()<3||maintainance.getMaintenanceType().length()>50){
+        if (maintainance.getMaintenanceType().length() < 3 || maintainance.getMaintenanceType().length() > 50) {
             flag = true;
-            model.addAttribute("typeError","Maintenance type must be between 3 and 50 characters.");
+            model.addAttribute("typeError", "Maintenance type must be between 3 and 50 characters.");
         }
-        if(flag) {
+        if (flag) {
             return "/maintenance/edit/{id}(id=${id})";
         }
-        String url = "http://localhost:8000/maintenance/edit/"+id;
+        String url = "http://localhost:8000/maintenance/edit/" + id;
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         HttpEntity<Maintenance> request = new HttpEntity<>(maintainance, headers);
@@ -74,45 +85,53 @@ public class MaintenanceController {
     }
 
     @PostMapping("/maintenance/register")
-    public String submitMaintenanceForm(@ModelAttribute Maintenance maintainance, Model model){
-     
+    public String submitMaintenanceForm(@ModelAttribute("maintainance") Maintenance maintainance, Model model) {
+
         boolean flag = false;
 //        if(maintainance.getCar()<0){
 //            flag = true;
 //            model.addAttribute("carIdError","Car Id must be positive number");
 //        }
-        if(maintainance.getDescription().length()>=255){
+        if (maintainance.getCar().getCarId() < 0) {
             flag = true;
-            model.addAttribute("DescriptionError","Description cannot exceed 255 characters.");
+            model.addAttribute("carIdError", "Car Id must be positive number");
         }
-        if(maintainance.getMaintenanceStatus().length()<3 || maintainance.getMaintenanceStatus().length()>50){
+        if (maintainance.getDescription().length() >= 255) {
             flag = true;
-            model.addAttribute("statusError","Maintenance status must be between 3 and 50 characters..");
+            model.addAttribute("DescriptionError", "Description cannot exceed 255 characters.");
         }
-        if(maintainance.getMaintenanceType().length()<3 || maintainance.getMaintenanceType().length()>50){
+        if (maintainance.getMaintenanceStatus().length() < 3 || maintainance.getMaintenanceStatus().length() > 50) {
             flag = true;
-            model.addAttribute("typeError","Maintenance type must be between 3 and 50 characters.");
+            model.addAttribute("statusError", "Maintenance status must be between 3 and 50 characters..");
         }
-        if(flag) {
+        if (maintainance.getMaintenanceType().length() < 3 || maintainance.getMaintenanceType().length() > 50) {
+            flag = true;
+            model.addAttribute("typeError", "Maintenance type must be between 3 and 50 characters.");
+        }
+        if (flag) {
+            return "admin/maintenance-management/create-maintenance6";
         }
         String url = "http://localhost:8000/maintenance/create";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         HttpEntity<Maintenance> request = new HttpEntity<>(maintainance, headers);
         ResponseEntity<?> response = restTemplate.exchange(url, HttpMethod.POST, request, String.class);
-        System.out.println(response.toString());
+        System.out.println(response);
         return "redirect:/maintenance/list";
     }
 
     @GetMapping("/maintenance/list")
-    public String viewMaintenanceRecords(Model model ,@RequestParam(defaultValue = "") String msg) {
+    public String viewMaintenanceRecords(Model model, @RequestParam(defaultValue = "") String msg) {
         String url = "http://localhost:8000/maintenance/data";
         String response = restTemplate.getForObject(url, String.class);
+//        System.out.println(response+"response of all maintainence line no 117");
         // Convert the JSON response to a List of MaintenanceRecord objects
         ObjectMapper objectMapper = new ObjectMapper();
+
         try {
             List<Maintenance> maintenanceList = objectMapper.readValue(response, new TypeReference<List<Maintenance>>() {
             });
+
             model.addAttribute("records", maintenanceList);
         } catch (Exception e) {
             e.printStackTrace();
@@ -122,25 +141,26 @@ public class MaintenanceController {
 
     @GetMapping("/maintenance/delete/{id}")
     public String deleteMaintenanceRecord(@PathVariable Long id, Model model) {
-        String url = "localhost:7000/maintenance/delete/" + id;
+        String url = "localhost:8000/maintenance/delete/" + id;
         String response = restTemplate.getForObject(url, String.class);
         return "redirect:/maintenance/list";
     }
 
 
-
     @GetMapping("/maintenance/edit/{id}")
     public String showEditMaintenanceForm(@PathVariable("id") Long id, Model model) {
-        String url = "http://localhost:8000/maintenance/data/"+id;
+        String url = "http://localhost:8000/maintenance/data/" + id;
         String response = restTemplate.getForObject(url, String.class);
-       // Convert the JSON response to a List of MaintenanceRecord objects
-       ObjectMapper objectMapper = new ObjectMapper();
-       try {
-    	   Maintenance maintenance = objectMapper.readValue(response,new TypeReference<Maintenance>(){});
-           model.addAttribute("maintenance", maintenance);
-       } catch (Exception e) {
-           e.printStackTrace();
-       }
+        // Convert the JSON response to a List of MaintenanceRecord objects
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            Maintenance maintenance = objectMapper.readValue(response, new TypeReference<Maintenance>() {
+            });
+            model.addAttribute("maintenance", maintenance);
+            System.out.println(maintenance.getDate());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "admin/maintenance-management/edit-maintenance6"; // Return the edit form view
     }
 }
