@@ -2,6 +2,7 @@ package com.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.model.Car;
 import com.model.Maintenance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -111,6 +112,8 @@ public class MaintenanceController {
         if (flag) {
             return "admin/maintenance-management/create-maintenance6";
         }
+        
+        System.out.println(maintainance);
         String url = "http://localhost:8000/maintenance/create";
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
@@ -123,15 +126,8 @@ public class MaintenanceController {
     @GetMapping("/maintenance/list")
     public String viewMaintenanceRecords(Model model, @RequestParam(defaultValue = "") String msg) {
         String url = "http://localhost:8000/maintenance/data";
-        String response = restTemplate.getForObject(url, String.class);
-//        System.out.println(response+"response of all maintainence line no 117");
-        // Convert the JSON response to a List of MaintenanceRecord objects
-        ObjectMapper objectMapper = new ObjectMapper();
-
         try {
-            List<Maintenance> maintenanceList = objectMapper.readValue(response, new TypeReference<List<Maintenance>>() {
-            });
-
+        	Maintenance[] maintenanceList = restTemplate.getForObject(url, Maintenance[].class); 
             model.addAttribute("records", maintenanceList);
         } catch (Exception e) {
             e.printStackTrace();
@@ -150,14 +146,19 @@ public class MaintenanceController {
     @GetMapping("/maintenance/edit/{id}")
     public String showEditMaintenanceForm(@PathVariable("id") Long id, Model model) {
         String url = "http://localhost:8000/maintenance/data/" + id;
-        String response = restTemplate.getForObject(url, String.class);
-        // Convert the JSON response to a List of MaintenanceRecord objects
-        ObjectMapper objectMapper = new ObjectMapper();
+     
+
         try {
-            Maintenance maintenance = objectMapper.readValue(response, new TypeReference<Maintenance>() {
-            });
-            model.addAttribute("maintenance", maintenance);
-            System.out.println(maintenance.getDate());
+        	  ResponseEntity<Maintenance> response = restTemplate.exchange(
+  	                url,
+  	                HttpMethod.GET,
+  	                null,
+  	                Maintenance.class
+  	            );
+
+  	            Maintenance record = response.getBody();
+            model.addAttribute("maintenance", record);
+            System.out.println("Date :" + record.getDate());
         } catch (Exception e) {
             e.printStackTrace();
         }

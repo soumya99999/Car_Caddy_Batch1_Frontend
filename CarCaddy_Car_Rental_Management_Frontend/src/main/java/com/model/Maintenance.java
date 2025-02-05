@@ -78,4 +78,14 @@ public class Maintenance {
 		this.description = description;
 	}
 
+	@Override
+	public String toString() {
+		return "Maintenance [maintenanceId=" + maintenanceId + ", car=" + car + ", maintenanceType=" + maintenanceType
+				+ ", date=" + date + ", maintenanceCost=" + maintenanceCost + ", maintenanceStatus=" + maintenanceStatus
+				+ ", description=" + description + "]";
+	}
+	
+	
+	
+
 }

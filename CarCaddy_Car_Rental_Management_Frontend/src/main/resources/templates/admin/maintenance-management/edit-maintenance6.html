@@ -26,6 +26,10 @@
             <input class="bg-violet-200 w-full h-8 rounded-lg text-black p-2 outline-none lookout" id="maintenanceType" required th:field="*{maintenanceType}" type="text">
         </div>
         <div>
+            <label for="date">Maintenance Date:</label>
+            <input type="date" class="bg-violet-200 w-full h-8 rounded-lg text-black p-2 outline-none lookout" id="date" required th:field="*{date}" >
+        </div>
+        <div>
             <label for="maintenanceCost">Maintenance Cost:</label>
             <input class="bg-violet-200 w-full h-8 rounded-lg text-black p-2 outline-none lookout" id="maintenanceCost" required th:field="*{maintenanceCost}" type="number">
         </div>

@@ -121,15 +121,15 @@
         </div>
 
         <!-- Loyalty Points Field -->
-        <div class="mb-3">
-            <label for="loyaltyPoints" class="form-label">Loyalty Points</label>
+        <div class="mb-3" style="display:none">
+            <label for="loyaltyPoints" class="form-label" >Loyalty Points</label>
             <input type="number" id="loyaltyPoints" th:field="*{loyaltyPoints}" class="form-control" placeholder="Enter Loyalty Points" min="0" required />
             <div th:if="${#fields.hasErrors('loyaltyPoints')}" class="text-danger" th:errors="*{loyaltyPoints}"></div>
         </div>
 
         <!-- Blacklist Status Field -->
-        <div class="mb-3 form-check">
-            <input type="checkbox" id="blacklistStatus" th:field="*{blacklistStatus}" class="form-check-input" />
+        <div class="mb-3 form-check" style="display:none">
+            <input  type="checkbox" id="blacklistStatus" th:field="*{blacklistStatus}" class="form-check-input" />
             <label for="blacklistStatus" class="form-check-label">Blacklist Status</label>
             <div th:if="${#fields.hasErrors('blacklistStatus')}" class="text-danger" th:errors="*{blacklistStatus}"></div>
         </div>
